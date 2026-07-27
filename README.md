@@ -4,6 +4,8 @@
 
 판정하지 않습니다. 질문을 만듭니다. 이 구별이 이 저장소의 전부입니다.
 
+**→ [실제 산출물 열어보기](https://kjiwoo12.github.io/public-finance-screener/workpaper.html)** — 이 도구가 내놓는 검토조서입니다. 클론하지 않아도 됩니다.
+
 ---
 
 ## 어디에 쓰는 물건인가
@@ -188,6 +190,8 @@ python -m screen --json out/f.json    # JSON 으로
 임계값(20%p, 100억원)은 이 데이터의 분포에서 뽑았습니다 — 증가폭 중앙값이 0.00%p, 95분위가 24.5%p입니다. 어디서 가져온 기준이 아니라 이 모집단을 보고 정한 값이므로, 모집단이 바뀌면 다시 정해야 합니다.
 
 ## 조서로 나갑니다
+
+**→ [산출물 보기](https://kjiwoo12.github.io/public-finance-screener/workpaper.html)**
 
 ```
 python -m report          # docs/workpaper.html

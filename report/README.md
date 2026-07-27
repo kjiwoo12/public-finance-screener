@@ -2,6 +2,9 @@
 
 검토 결과를 **감사인이 쓰던 칸**에 담아 한 파일로 낸다.
 
+**→ [실제 산출물 열어보기](https://kjiwoo12.github.io/public-finance-screener/workpaper.html)**
+(소스는 [`docs/workpaper.html`](../docs/workpaper.html) 에 커밋되어 있다)
+
 ```bash
 python -m report                       # docs/workpaper.html
 python -m report --json out/w.json     # 조서 내용을 JSON 으로도
