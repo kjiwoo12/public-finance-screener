@@ -28,6 +28,21 @@ def _eok(million_won: float) -> str:
     return f"{million_won / 100:,.0f}억원"
 
 
+# 조서의 "적용 절차" 칸에 그대로 나가는 값. 임계값 상수 바로 옆에 두는 이유는,
+# 떨어뜨려 놓으면 상수를 고치고 설명을 안 고치는 일이 생기기 때문이다.
+DATASET = "debt_scale"
+DOC = "skills/debt_maturity_shift.md"
+PURPOSE = "부채 총액은 그대로인데 고정부채가 유동부채로 넘어온 해를 찾는다."
+THRESHOLDS = [
+    ("유동부채 비중 증가", f"{MIN_SHIFT * 100:.0f}%p 이상",
+     "이 데이터 연도쌍에서 증가폭 중앙값 0.00%p, 95분위 24.5%p"),
+    ("유동부채 증가액", f"{MIN_AMOUNT / 100:,.0f}억원 이상",
+     "비중만 보면 부채가 작은 기관에서 쉽게 튄다"),
+    ("총부채 감소", f"{MAX_TOTAL_DROP * 100:.0f}% 이상이면 기각",
+     "상환 국면이면 잔액이 전부 1년 내 만기가 되는 것이 당연하다"),
+]
+
+
 def _total_move(before: float, after: float) -> str:
     """총부채가 어떻게 움직였는지. 이 관점의 핵심은 총액이 아니라 만기다."""
     diff = after - before

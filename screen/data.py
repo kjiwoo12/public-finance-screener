@@ -35,11 +35,22 @@ class Table:
         with path.open(encoding="utf-8", newline="") as fh:
             self.rows: list[dict[str, str]] = list(csv.DictReader(fh))
         self._index: dict[tuple[str, int], dict[str, str]] = {}
+        # 색인에 못 들어간 행. 이걸 세지 않으면 원본 행수와 살펴본 수가
+        # 어긋나는데 아무도 모른다. 조서의 모집단 칸에서 이 수를 맞춘다.
+        self.lost: list[tuple[str, dict[str, str]]] = []
         for row in self.rows:
             name = row.get("ENT_NAME", "")
             year = row.get("AC_YEAR", "")
-            if name and year.isdigit():
-                self._index[(name, int(year))] = row
+            if not (name and year.isdigit()):
+                self.lost.append(("기관명 또는 회계연도를 읽지 못함", row))
+                continue
+            key = (name, int(year))
+            if key in self._index:
+                # 이름이 같은 기관이 둘이면 나중 행이 앞 행을 덮는다. 덮인
+                # 쪽은 검토되지도 기각되지도 않은 채 사라진다.
+                self.lost.append(("같은 이름·같은 연도가 이미 있음", row))
+                continue
+            self._index[key] = row
 
     def get(self, ent_name: str, ac_year: int) -> dict[str, str] | None:
         return self._index.get((ent_name, ac_year))
