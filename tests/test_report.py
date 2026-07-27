@@ -12,7 +12,7 @@ import re
 import unittest
 from pathlib import Path
 
-from report.render import CSS, render
+from report.render import CSS, _mark, render
 from report.workpaper import build
 
 ROOT = Path(__file__).resolve().parent.parent
@@ -76,6 +76,17 @@ class TestNothingIsAdded(Base):
                     for q in f["open_questions"]:
                         self.assertIn(q, self.html)
 
+    def test_rules_do_not_carry_markup(self):
+        """규칙이 HTML 을 들고 있으면 출력 형식이 바뀔 때마다 규칙을 고쳐야 한다."""
+        for p in self.payload["procedures"]:
+            for field in ("purpose", "plain"):
+                self.assertNotIn("<", p.get(field, ""), f"{field} 에 태그가 있다")
+
+    def test_emphasis_marks_survive_escaping(self):
+        """*별표* 는 강조가 되고, 본문에 든 태그는 글자로 남아야 한다."""
+        self.assertEqual(_mark("가*나*다"), "가<b>나</b>다")
+        self.assertEqual(_mark("<b>x</b>"), "&lt;b&gt;x&lt;/b&gt;")
+
     def test_thresholds_come_from_the_rule_not_the_renderer(self):
         """임계값을 렌더러가 다시 적으면 상수를 고쳐도 화면이 안 바뀐다."""
         for _, value, _ in self.payload["procedures"][0]["thresholds"]:
@@ -129,9 +140,16 @@ class TestNothingIsHidden(Base):
         self.assertIn("채점된 적이 없다", self.html)
 
     def test_excluded_comes_before_findings(self):
-        """발견사항을 먼저 놓으면 읽는 사람은 거기서 멈춘다."""
-        self.assertLess(self.html.index("3. 제외"),
-                        self.html.index("4. 발견사항"))
+        """발견사항을 먼저 놓으면 읽는 사람은 거기서 멈춘다.
+
+        칸 이름이나 번호 표기가 바뀌어도 순서만은 지켜지는지 본다.
+        """
+        titles = re.findall(r"<h2>.*?</i>([^<]+)</h2>", self.html)
+        self.assertEqual(
+            titles,
+            ["모집단", "적용 절차", "제외", "발견사항",
+             "이 조서가 말할 수 없는 것"],
+            "조서의 칸 순서가 바뀌었다")
 
 
 class TestDrilldownReachesSource(Base):

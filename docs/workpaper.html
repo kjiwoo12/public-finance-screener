@@ -2,156 +2,278 @@
 <html lang="ko"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>검토조서 — 지방공기업 결산자료 이상징후 검토</title>
+<meta name="description" content="지방공기업 결산자료를 전수로 훑어 확인이 필요한 항목을 고른 검토조서">
 <style>
-:root { --ink:#1a1a1a; --dim:#666; --line:#d8d4cc; --bg:#faf9f7;
-        --box:#fff; --warn:#8a5a00; --warnbg:#fdf6e6; }
-* { box-sizing:border-box; }
-body { margin:0; padding:0 1.25rem 5rem; background:var(--bg); color:var(--ink);
-       font:15px/1.75 "Malgun Gothic","맑은 고딕",-apple-system,sans-serif; }
-main { max-width:52rem; margin:0 auto; }
-h1 { font-size:1.6rem; margin:0 0 .4rem; letter-spacing:-.02em; }
-h2 { font-size:1.15rem; margin:3.5rem 0 .25rem; padding-bottom:.5rem;
-     border-bottom:2px solid var(--ink); }
-h3 { font-size:1rem; margin:2rem 0 .5rem; }
-p, li { margin:.6rem 0; }
-small, .dim { color:var(--dim); }
-code { font-family:Consolas,"D2Coding",monospace; font-size:.9em; }
-a { color:inherit; }
+:root{
+  --bg:#faf9f6; --surface:#fff; --sunk:#f4f2ed;
+  --ink:#14161a; --body:#33373e; --dim:#7b8089; --faint:#a8adb5;
+  --line:#e6e2d9; --hair:#f0ede6;
+  --accent:#1d4e5a; --accent-soft:#e8f0f1;
+  --alert:#8f3f34; --alert-soft:#fbf1ef;
+  --radius:10px;
+}
+@media (prefers-color-scheme:dark){
+  :root{
+    --bg:#111317; --surface:#181b20; --sunk:#1e2126;
+    --ink:#f0eee9; --body:#c6c9ce; --dim:#8b9098; --faint:#666b73;
+    --line:#282c33; --hair:#212429;
+    --accent:#7fb8c4; --accent-soft:#16282d;
+    --alert:#d99184; --alert-soft:#2a1d1b;
+  }
+}
+*{box-sizing:border-box;}
+html{-webkit-text-size-adjust:100%;}
+body{
+  margin:0; padding:0 1.5rem 7rem; background:var(--bg); color:var(--body);
+  font:400 16px/1.85 "Pretendard","Apple SD Gothic Neo","Malgun Gothic",
+       "맑은 고딕",-apple-system,BlinkMacSystemFont,sans-serif;
+  letter-spacing:-.011em; word-break:keep-all; overflow-wrap:break-word;
+}
+main{max-width:50rem; margin:0 auto;}
+h1,h2,h3,h4{color:var(--ink); line-height:1.35; letter-spacing:-.025em;}
+p{margin:.85rem 0;}
+b,strong{color:var(--ink); font-weight:600;}
+em{font-style:normal; color:var(--accent); font-weight:500;}
+code{font-family:"SFMono-Regular",Consolas,"D2Coding",monospace;
+     font-size:.86em; color:var(--dim);}
+.dim{color:var(--dim);}
+.tiny{font-size:.8rem; line-height:1.7;}
 
-header { padding:3rem 0 1.5rem; border-bottom:1px solid var(--line); }
-.meta { display:grid; grid-template-columns:max-content 1fr; gap:.15rem 1.25rem;
-        margin-top:1.25rem; font-size:.88rem; }
-.meta dt { color:var(--dim); }
-.meta dd { margin:0; }
+/* ── 표지 ───────────────────────────────────────────── */
+header{padding:5.5rem 0 0;}
+.kicker{font-size:.72rem; letter-spacing:.22em; text-transform:uppercase;
+        color:var(--accent); font-weight:600; margin:0 0 1.1rem;}
+h1{font-size:clamp(2rem,5.5vw,2.9rem); margin:0; font-weight:700;}
+.sub{font-size:1.05rem; color:var(--dim); margin:.7rem 0 0;}
 
-table { border-collapse:collapse; width:100%; margin:1rem 0; font-size:.9rem; }
-th, td { text-align:left; padding:.5rem .7rem; border-bottom:1px solid var(--line);
-         vertical-align:top; }
-th { font-weight:600; color:var(--dim); font-size:.82rem; white-space:nowrap; }
-td.n { text-align:right; font-variant-numeric:tabular-nums; white-space:nowrap; }
-.wrap { overflow-x:auto; }
+.stats{display:grid; grid-template-columns:repeat(3,1fr); gap:1px;
+       background:var(--line); border:1px solid var(--line);
+       border-radius:var(--radius); overflow:hidden; margin:2.75rem 0 1.25rem;}
+.stat{background:var(--surface); padding:1.35rem 1.25rem;}
+.stat b{display:block; font-size:1.85rem; font-weight:700; line-height:1.15;
+        font-variant-numeric:tabular-nums; letter-spacing:-.03em;}
+.stat span{display:block; font-size:.78rem; color:var(--dim); margin-top:.3rem;}
+.stat em{font-size:.72rem; color:var(--faint); font-weight:400;}
 
-.note { background:var(--warnbg); border-left:3px solid var(--warn);
-        padding:.85rem 1.1rem; margin:1.25rem 0; font-size:.9rem; color:var(--warn); }
-.note strong { color:var(--warn); }
+.facts{display:grid; grid-template-columns:max-content 1fr; gap:.3rem 1.5rem;
+       font-size:.85rem; margin:0; padding:1.35rem 0 0;
+       border-top:1px solid var(--hair);}
+.facts dt{color:var(--faint);}
+.facts dd{margin:0; color:var(--body);}
 
-.bar { background:var(--line); height:.4rem; border-radius:2px; margin-top:.3rem; }
-.bar > span { display:block; height:100%; background:var(--dim); border-radius:2px; }
+/* ── 섹션 ───────────────────────────────────────────── */
+section{margin-top:5rem;}
+h2{display:flex; align-items:baseline; gap:.75rem; font-size:1.4rem;
+   margin:0 0 .2rem; padding-bottom:1rem; border-bottom:1px solid var(--ink);}
+h2 i{font-style:normal; font-size:.78rem; font-weight:600; color:var(--accent);
+     font-variant-numeric:tabular-nums;}
+.lede{font-size:.95rem; color:var(--dim); margin:1.1rem 0 0;}
+h3{font-size:1.02rem; margin:2.5rem 0 .6rem; font-weight:650;}
+h3 small{font-weight:400; color:var(--faint); font-size:.78rem;
+         margin-left:.4rem; font-family:Consolas,monospace;}
 
-.card { background:var(--box); border:1px solid var(--line); border-radius:4px;
-        padding:1.25rem 1.4rem; margin:1.25rem 0; }
-.card > h3 { margin-top:0; }
-.calc { background:var(--bg); border-radius:3px; padding:.8rem 1rem; margin:.8rem 0;
-        font-family:Consolas,"D2Coding",monospace; font-size:.84rem; line-height:1.9;
-        white-space:pre-wrap; overflow-x:auto; }
-.ask { margin:.8rem 0 0; padding-left:1.1rem; }
-.ask li { margin:.35rem 0; }
+/* ── 표 ─────────────────────────────────────────────── */
+.wrap{overflow-x:auto; margin:1.4rem 0;
+      border:1px solid var(--line); border-radius:var(--radius);
+      background:var(--surface);}
+table{border-collapse:collapse; width:100%; font-size:.88rem;}
+th,td{text-align:left; padding:.72rem 1rem; vertical-align:top;
+      border-bottom:1px solid var(--hair);}
+thead th{font-size:.73rem; font-weight:600; color:var(--faint);
+         letter-spacing:.06em; text-transform:uppercase; white-space:nowrap;
+         background:var(--sunk);}
+tbody tr:last-child td,tbody tr:last-child th{border-bottom:none;}
+tfoot td,tfoot th{border-top:1px solid var(--line); border-bottom:none;
+                  font-weight:600; color:var(--ink); background:var(--sunk);}
+td.n,th.n{text-align:right; font-variant-numeric:tabular-nums;
+          white-space:nowrap;}
+tbody th{font-weight:500; color:var(--dim); white-space:nowrap;}
+.step td:first-child{font-weight:500; color:var(--ink);}
 
-details { margin-top:1rem; border-top:1px solid var(--line); padding-top:.8rem; }
-summary { cursor:pointer; font-size:.85rem; color:var(--dim); }
-details table { font-size:.8rem; }
+/* ── 강조 상자 ──────────────────────────────────────── */
+.flag{background:var(--alert-soft); border:1px solid var(--alert);
+      border-radius:var(--radius); padding:1.15rem 1.35rem; margin:1.5rem 0;
+      font-size:.89rem; color:var(--body);}
+.flag b{display:block; color:var(--alert); margin-bottom:.45rem;
+        font-size:.95rem;}
+.flag .items{font-family:Consolas,monospace; font-size:.8rem;
+             color:var(--dim); margin:.5rem 0;}
+.plain{background:var(--accent-soft); border-radius:var(--radius);
+       padding:1.1rem 1.35rem; margin:1.2rem 0; font-size:.93rem;}
+.plain b{color:var(--accent);}
 
-@media print {
-  body { background:#fff; font-size:10.5pt; padding:0; }
-  .card, .note { border:1px solid #bbb; background:#fff; break-inside:avoid; }
-  h2 { break-after:avoid; }
-  details { border-top:1px solid #bbb; }
-  details[open] summary, summary { list-style:none; }
-  a { text-decoration:none; }
+/* ── 제외 막대 ──────────────────────────────────────── */
+.bars{margin:1.4rem 0;}
+.row{display:grid; grid-template-columns:1fr auto; gap:.15rem .9rem;
+     align-items:baseline; padding:.85rem 0; border-bottom:1px solid var(--hair);}
+.row:last-child{border-bottom:none;}
+.row .lbl{font-size:.9rem; color:var(--ink);}
+.row .val{font-size:.85rem; color:var(--dim); font-variant-numeric:tabular-nums;
+          white-space:nowrap;}
+.row .track{grid-column:1/-1; height:3px; background:var(--hair);
+            border-radius:2px; margin-top:.4rem;}
+.row .track i{display:block; height:100%; background:var(--accent);
+              border-radius:2px;}
+
+/* ── 발견사항 ───────────────────────────────────────── */
+.find{background:var(--surface); border:1px solid var(--line);
+      border-radius:var(--radius); padding:1.6rem 1.75rem; margin:1.25rem 0;}
+.find header{display:flex; align-items:baseline; gap:.6rem; padding:0;
+             margin-bottom:.9rem; flex-wrap:wrap;}
+.find .idx{font-size:.72rem; font-weight:700; color:var(--faint);
+           font-variant-numeric:tabular-nums;}
+.find h4{font-size:1.12rem; margin:0; font-weight:650;}
+.find .yr{font-size:.78rem; color:var(--dim);}
+.find .lead{margin:0 0 1rem; font-size:.95rem;}
+.scale{height:3px; background:var(--hair); border-radius:2px; margin:0 0 1.2rem;}
+.scale i{display:block; height:100%; background:var(--accent); border-radius:2px;}
+.calc{background:var(--sunk); border-radius:8px; padding:1rem 1.2rem;
+      margin:1rem 0; font-family:"SFMono-Regular",Consolas,"D2Coding",monospace;
+      font-size:.8rem; line-height:2; white-space:pre-wrap; overflow-x:auto;
+      color:var(--body);}
+.ask{margin:1.2rem 0 0; padding:0; list-style:none;}
+.ask li{position:relative; padding-left:1.15rem; margin:.5rem 0;
+        font-size:.89rem;}
+.ask li::before{content:"?"; position:absolute; left:0; top:0;
+                color:var(--accent); font-weight:700; font-size:.85rem;}
+.label{font-size:.72rem; letter-spacing:.1em; text-transform:uppercase;
+       color:var(--faint); font-weight:600; margin:0;}
+
+details{margin-top:1.3rem; border-top:1px solid var(--hair); padding-top:.9rem;}
+summary{cursor:pointer; font-size:.82rem; color:var(--dim); list-style:none;
+        display:flex; align-items:center; gap:.4rem;}
+summary::-webkit-details-marker{display:none;}
+summary::before{content:"+"; color:var(--accent); font-weight:700;}
+details[open] summary::before{content:"−";}
+details .wrap{margin:.9rem 0 .3rem;}
+details table{font-size:.78rem;}
+
+/* ── 한계 ───────────────────────────────────────────── */
+.limit{border-top:1px solid var(--hair); padding:1.35rem 0;}
+.limit:first-of-type{border-top:none;}
+.limit b{display:block; font-size:.98rem; margin-bottom:.35rem;}
+.limit p{margin:0; font-size:.9rem;}
+
+footer{margin-top:5rem; padding-top:1.5rem; border-top:1px solid var(--hair);
+       font-size:.78rem; color:var(--faint); line-height:1.8;}
+
+@media (max-width:34rem){
+  body{padding:0 1.1rem 4rem; font-size:15px;}
+  .stats{grid-template-columns:1fr;}
+  .find{padding:1.25rem 1.15rem;}
+  .facts{grid-template-columns:1fr; gap:.1rem;}
+  .facts dd{margin-bottom:.6rem;}
+}
+
+@media print{
+  :root{--bg:#fff; --surface:#fff; --sunk:#fff; --ink:#000; --body:#222;
+        --dim:#555; --faint:#777; --line:#bbb; --hair:#ddd;
+        --accent:#000; --accent-soft:#fff; --alert:#000; --alert-soft:#fff;}
+  body{padding:0; font-size:10pt;}
+  header{padding-top:0;}
+  section{margin-top:2.5rem; break-inside:auto;}
+  h2{break-after:avoid;}
+  .find,.flag,.wrap,.plain{break-inside:avoid; border:1px solid #bbb;}
+  details{break-inside:avoid;}
+  details summary::before{content:"";}
+  details > *:not(summary){display:block !important;}
 }
 </style></head><body><main>
 <header>
+<p class="kicker">Working Paper</p>
 <h1>검토조서</h1>
-<p class="dim">지방공기업 결산자료 이상징후 검토</p>
-<dl class="meta"><dt>검토 대상</dt><dd>지방공기업 결산자료 이상징후 검토</dd><dt>근거자료</dt><dd>data/snapshot/debt_scale.csv</dd><dt>회계연도</dt><dd>2020~2024</dd><dt>살펴본 건</dt><dd>1,620건</dd><dt>발견사항</dt><dd>16건</dd><dt>제외</dt><dd>1,604건</dd></dl>
-<p class="dim"><small>작성일시를 넣지 않는다. 실행 시각을 찍으면 같은 자료에서
-매번 다른 바이트가 나오고, 조서를 저장소에 커밋해 두므로 그러면 무엇이 바뀌었는지
-알 수 없게 된다. 조서가 무엇을 근거로 만들어졌는지는 위 회계연도가 말해 준다.</small></p>
+<p class="sub">지방공기업 결산자료 이상징후 검토</p>
+<div class="stats"><div class='stat'><b>1,620</b><span>살펴본 연도쌍</span><em>빠짐없이 전수</em></div><div class='stat'><b>1,604</b><span>제외</span><em>사유를 세어서 남김</em></div><div class='stat'><b>16</b><span>발견사항</span><em>확인이 필요한 건</em></div></div>
+<dl class="facts"><dt>검토 대상</dt><dd>지방공기업 결산자료 이상징후 검토</dd><dt>근거자료</dt><dd>data/snapshot/debt_scale.csv</dd><dt>회계연도</dt><dd>2020~2024</dd><dt>적용 절차</dt><dd>1개</dd></dl>
 </header>
-<h2>1. 모집단</h2>
-<p>원본 파일에서 살펴본 연도쌍까지 수가 어떻게 줄어드는지 적는다. 중간에 사라진 행이 있으면 여기서 드러난다.</p>
-<div class='wrap'><table><thead><tr><th>단계</th><th class='n'>건</th><th>줄어드는 이유</th></tr></thead><tbody><tr><td>원본 CSV 행</td><td class='n'>2,052</td><td class='dim'></td></tr><tr><td>색인된 기관-연도</td><td class='n'>2,047</td><td class='dim'>같은 기관·같은 연도가 두 번 나오면 뒤엣것을 버린다</td></tr><tr><td>기관 수</td><td class='n'>427</td><td class='dim'>2020~2024 중 한 해라도 자료가 있는 곳</td></tr><tr><td>살펴본 연도쌍</td><td class='n'>1,620</td><td class='dim'>직전 연도 자료가 있어야 변화를 볼 수 있다</td></tr></tbody></table></div>
-<p class='dim'><small>근거자료 <code>data/snapshot/debt_scale.csv</code> · 회계연도 2020~2024</small></p>
-<div class='note'><strong>5건이 검토 대상에서 빠졌다 — 같은 이름·같은 연도가 이미 있음</strong><br>고성군상수도 2020 / 고성군상수도 2021 / 고성군상수도 2022 / 고성군상수도 2023 / 고성군상수도 2024<br><br>이 행들은 발견사항에도 제외 내역에도 나타나지 않는다. 검토된 적이 없다는 뜻이다.</div>
-<h2>2. 적용 절차</h2>
-<h3>부채가 만기만 갈아탔는가 <small class='dim'>debt_maturity_shift</small></h3>
+<section><p class="lede">이 조서는 <b>무엇을 올렸는지보다 무엇을 안 올렸는지</b>를 먼저 보여 준다. 감사 대상을 고를 때 정작 답하기 어려운 질문은 &ldquo;왜 저기를 봤나&rdquo;가 아니라 <b>&ldquo;그럼 저기는 왜 안 봤나&rdquo;</b>이기 때문이다. 그래서 3번 칸(제외)이 4번 칸(발견사항)보다 앞에 있다.</p></section>
+<section><h2><i>01</i>모집단</h2><p class='lede'>원본 파일에서 살펴본 연도쌍까지 수가 어떻게 줄어드는지 적는다. 중간에 사라진 행이 있으면 여기서 드러난다.</p><div class='wrap'><table><thead><tr><th>단계</th><th class='n'>건</th><th>여기서 줄어드는 이유</th></tr></thead><tbody><tr class='step'><td>원본 CSV 행</td><td class='n'>2,052</td><td class='dim'></td></tr><tr class='step'><td>색인된 기관-연도</td><td class='n'>2,047</td><td class='dim'>같은 기관·같은 연도가 두 번 나오면 뒤엣것을 버린다</td></tr><tr class='step'><td>기관 수</td><td class='n'>427</td><td class='dim'>2020~2024 중 한 해라도 자료가 있는 곳</td></tr><tr class='step'><td>살펴본 연도쌍</td><td class='n'>1,620</td><td class='dim'>직전 연도 자료가 있어야 변화를 볼 수 있다</td></tr></tbody></table></div>
+<p class='label'>이 조서가 쓰는 말</p><div class='wrap'><table><tbody><tr><th>모집단</th><td>빠짐없이 다 봤다고 말하는 대상의 범위</td></tr><tr><th>연도쌍</th><td>같은 기관의 올해와 작년을 한 쌍으로 묶은 것. 변화를 보려면 두 해가 필요하다</td></tr><tr><th>제외</th><td>살펴봤지만 올리지 않은 건. 안 본 것과 다르다</td></tr><tr><th>발견사항</th><td>확인이 필요하다고 올린 건. 잘못했다는 판정이 아니다</td></tr></tbody></table></div>
+<div class='flag'><b>5건이 검토 대상에서 빠졌다 — 같은 이름·같은 연도가 이미 있음</b><div class='items'>고성군상수도 2020 · 고성군상수도 2021 · 고성군상수도 2022 · 고성군상수도 2023 · 고성군상수도 2024</div>이 행들은 발견사항에도 제외 내역에도 나타나지 않는다. <b style='display:inline'>검토된 적이 없다</b>는 뜻이다. 고쳐서 감추지 않고 여기에 띄운다.</div></section>
+<section><h2><i>02</i>적용 절차</h2><p class='lede'>어떤 눈으로 봤는지, 그리고 올리는 기준을 어디서 가져왔는지.</p><h3>부채가 만기만 갈아탔는가<small>debt_maturity_shift</small></h3>
 <p>부채 총액은 그대로인데 고정부채가 유동부채로 넘어온 해를 찾는다.</p>
-<div class='wrap'><table><tr><th>쓰는 자료</th><td>debt_scale</td></tr><tr><th>관점 문서</th><td>skills/debt_maturity_shift.md</td></tr><tr><th>살펴본 연도쌍</th><td>1,620건</td></tr></table></div>
-<div class='wrap'><table><thead><tr><th>올리는 조건</th><th>값</th><th>이 값인 이유</th></tr></thead><tbody><tr><td>유동부채 비중 증가</td><td>20%p 이상</td><td class='dim'>이 데이터 연도쌍에서 증가폭 중앙값 0.00%p, 95분위 24.5%p</td></tr><tr><td>유동부채 증가액</td><td>100억원 이상</td><td class='dim'>비중만 보면 부채가 작은 기관에서 쉽게 튄다</td></tr><tr><td>총부채 감소</td><td>20% 이상이면 기각</td><td class='dim'>상환 국면이면 잔액이 전부 1년 내 만기가 되는 것이 당연하다</td></tr></tbody></table></div>
-<h2>3. 제외</h2>
-<p>살펴봤으나 올리지 않은 건과 그 이유다. 빈칸으로 두면 <em>검토하지 않았음</em>과 <em>검토했으나 해당 없음</em>이 구별되지 않는다. 감사에서 이 둘은 전혀 다른 일이다.</p>
-<h3>부채가 만기만 갈아탔는가</h3>
-<div class='wrap'><table><thead><tr><th>제외 사유</th><th class='n'>건</th><th class='n'>비중</th><th></th></tr></thead><tbody><tr><td>비중 증가가 20%p 미만</td><td class='n'>1,426</td><td class='n'>88.9%</td><td style='width:8rem'><div class='bar'><span style='width:88.9%'></span></div></td></tr><tr><td>유동부채 증가액이 100억원 미만</td><td class='n'>77</td><td class='n'>4.8%</td><td style='width:8rem'><div class='bar'><span style='width:4.8%'></span></div></td></tr><tr><td>직전연도 부채가 0</td><td class='n'>76</td><td class='n'>4.7%</td><td style='width:8rem'><div class='bar'><span style='width:4.7%'></span></div></td></tr><tr><td>당해연도 부채가 0</td><td class='n'>24</td><td class='n'>1.5%</td><td style='width:8rem'><div class='bar'><span style='width:1.5%'></span></div></td></tr><tr><td>총부채가 20% 이상 감소 (상환 국면)</td><td class='n'>1</td><td class='n'>0.1%</td><td style='width:8rem'><div class='bar'><span style='width:0.1%'></span></div></td></tr></tbody><tfoot><tr><th>합계</th><td class='n'>1,604</td><td colspan='2'></td></tr></tfoot></table></div>
-<h2>4. 발견사항</h2>
-<p>확인이 필요한 항목이지 지적사항이 아니다. 각 건마다 계산식과 원본 행을 붙였으므로 이 조서만으로 손으로 다시 계산할 수 있다.</p>
-<h3>부채가 만기만 갈아탔는가 — 16건</h3>
-<div class='card'><h3>1. 광주광역시도시공사 <small class='dim'>2022 회계연도</small></h3><p>광주광역시도시공사: 1년 안에 갚아야 할 부채가 2022년에 5,323억원 늘었다. 전체 부채에서 차지하는 비중은 21.0%에서 66.3%로 올랐고, 총부채는 6,499억원에서 10,082억원으로 늘었다.</p><div class='calc'>2021년 유동부채 비중 = 136,507 / 649,903 = 21.0%
+<div class='plain'><b>쉬운 말로 —</b> 빌린 돈의 <b>총액은 비슷한데 갚아야 할 시점이 1년 안쪽으로 몰린</b> 해를 찾는다. 빚이 늘어난 것이 아니라 <b>기한이 당겨진</b> 것이다. 그래서 빚이 얼마인지만 보면 아무 일도 없어 보인다.</div>
+<div class='wrap'><table><tbody><tr><th>쓰는 자료</th><td>debt_scale</td></tr><tr><th>관점 문서</th><td>skills/debt_maturity_shift.md</td></tr><tr><th>살펴본 연도쌍</th><td>1,620건</td></tr></tbody></table></div>
+<p class='label'>이 절차가 쓰는 말</p><div class='wrap'><table><tbody><tr><th>유동부채</th><td>1년 안에 갚아야 하는 빚</td></tr><tr><th>고정부채</th><td>갚을 때까지 1년 넘게 남은 빚</td></tr><tr><th>만기 도래</th><td>갚을 날이 다가와 자연히 유동부채로 옮겨지는 것. 정상이다</td></tr><tr><th>차환</th><td>만기가 된 빚을 새로 빌려 갚는 것. 실패하면 급하게 돈을 구해야 한다</td></tr></tbody></table></div>
+<p class='label'>이 셋을 모두 넘겨야 올린다</p><div class='wrap'><table><thead><tr><th>조건</th><th class='n'>기준</th><th>왜 이 값인가</th></tr></thead><tbody><tr><td>유동부채 비중 증가</td><td class='n'>20%p 이상</td><td class='dim'>이 데이터 연도쌍에서 증가폭 중앙값 0.00%p, 95분위 24.5%p</td></tr><tr><td>유동부채 증가액</td><td class='n'>100억원 이상</td><td class='dim'>비중만 보면 부채가 작은 기관에서 쉽게 튄다</td></tr><tr><td>총부채 감소</td><td class='n'>20% 이상이면 기각</td><td class='dim'>상환 국면이면 잔액이 전부 1년 내 만기가 되는 것이 당연하다</td></tr></tbody></table></div></section>
+<section><h2><i>03</i>제외</h2><p class='lede'>살펴봤으나 올리지 않은 건과 그 이유다. 빈칸으로 두면 <em>검토하지 않았음</em>과 <em>검토했으나 해당 없음</em>이 구별되지 않는다. 감사에서 이 둘은 전혀 다른 일이다.</p><h3>부채가 만기만 갈아탔는가</h3>
+<div class='bars'><div class='row'><span class='lbl'>비중 증가가 20%p 미만</span><span class='val'>1,426건 · 88.9%</span><span class='track'><i style='width:88.9%'></i></span></div><div class='row'><span class='lbl'>유동부채 증가액이 100억원 미만</span><span class='val'>77건 · 4.8%</span><span class='track'><i style='width:4.8%'></i></span></div><div class='row'><span class='lbl'>직전연도 부채가 0</span><span class='val'>76건 · 4.7%</span><span class='track'><i style='width:4.7%'></i></span></div><div class='row'><span class='lbl'>당해연도 부채가 0</span><span class='val'>24건 · 1.5%</span><span class='track'><i style='width:1.5%'></i></span></div><div class='row'><span class='lbl'>총부채가 20% 이상 감소 (상환 국면)</span><span class='val'>1건 · 0.1%</span><span class='track'><i style='width:0.1%'></i></span></div></div>
+<p class='tiny dim'>합계 1,604건. 이 표가 있어야 <em>검토하지 않았음</em>과 <em>검토했으나 해당 없음</em>이 구별된다.</p></section>
+<section><h2><i>04</i>발견사항</h2><p class='lede'>확인이 필요한 항목이지 지적사항이 아니다. 각 건에 계산식과 원본 행을 붙였으므로 이 조서만으로 손으로 다시 계산할 수 있다.</p><h3>부채가 만기만 갈아탔는가 — 16건</h3>
+<article class='find'><header><span class='idx'>01</span><h4>광주광역시도시공사</h4><span class='yr'>2022 회계연도</span></header><p class='lead'>광주광역시도시공사: 1년 안에 갚아야 할 부채가 2022년에 5,323억원 늘었다. 전체 부채에서 차지하는 비중은 21.0%에서 66.3%로 올랐고, 총부채는 6,499억원에서 10,082억원으로 늘었다.</p><div class='scale'><i style='width:100.0%'></i></div><p class='label'>손으로 다시 계산해 볼 수 있게</p><div class='calc'>2021년 유동부채 비중 = 136,507 / 649,903 = 21.0%
 2022년 유동부채 비중 = 668,830 / 1,008,189 = 66.3%
 비중 증가 = 66.3% - 21.0% = 45.3%p
-유동부채 증가액 = 668,830 - 136,507 = 532,323 (백만원) = 5,323억원</div><p><strong>확인이 필요한 것</strong></p><ul class='ask'><li>만기가 도래한 것인가, 차환에 실패한 것인가. 공시에 만기 구조가 없어 이 데이터로는 구별할 수 없다.</li><li>이 기관의 사업 성격상 단기 차입을 굴리는 것이 통상적인가.</li><li>해당 연도에 계정 재분류나 회계기준 변경이 있었는가.</li></ul><details><summary>원본 자료 — 위 숫자가 나온 그 줄</summary><p class='dim'><small>debt_scale · 광주광역시도시공사 · 2021년</small></p><div class='wrap'><table><tr><th>AC_YEAR</th><td class='n'>2021</td></tr><tr><th>ENT_NAME</th><td class='n'>광주광역시도시공사</td></tr><tr><th>FIN_BU_YU</th><td class='n'>136507.0</td></tr><tr><th>FIN_BU_GU</th><td class='n'>513395.0</td></tr><tr><th>FIN_BU_SUM</th><td class='n'>649903.0</td></tr></table></div><p class='dim'><small>debt_scale · 광주광역시도시공사 · 2022년</small></p><div class='wrap'><table><tr><th>AC_YEAR</th><td class='n'>2022</td></tr><tr><th>ENT_NAME</th><td class='n'>광주광역시도시공사</td></tr><tr><th>FIN_BU_YU</th><td class='n'>668830.0</td></tr><tr><th>FIN_BU_GU</th><td class='n'>339359.0</td></tr><tr><th>FIN_BU_SUM</th><td class='n'>1008189.0</td></tr></table></div></details></div>
-<div class='card'><h3>2. 부산도시공사 <small class='dim'>2022 회계연도</small></h3><p>부산도시공사: 1년 안에 갚아야 할 부채가 2022년에 3,964억원 늘었다. 전체 부채에서 차지하는 비중은 22.2%에서 52.5%로 올랐고, 총부채는 10,366억원에서 11,937억원으로 늘었다.</p><div class='calc'>2021년 유동부채 비중 = 230,352 / 1,036,616 = 22.2%
+유동부채 증가액 = 668,830 - 136,507 = 532,323 (백만원) = 5,323억원</div><p class='label'>사람이 확인해야 하는 것</p><ul class='ask'><li>만기가 도래한 것인가, 차환에 실패한 것인가. 공시에 만기 구조가 없어 이 데이터로는 구별할 수 없다.</li><li>이 기관의 사업 성격상 단기 차입을 굴리는 것이 통상적인가.</li><li>해당 연도에 계정 재분류나 회계기준 변경이 있었는가.</li></ul><details><summary>원본 자료 — 위 숫자가 나온 그 줄</summary><p class='label'>debt_scale · 광주광역시도시공사 · 2021년</p><div class='wrap'><table><tbody><tr><th>AC_YEAR</th><td class='n'>2021</td></tr><tr><th>ENT_NAME</th><td class='n'>광주광역시도시공사</td></tr><tr><th>FIN_BU_YU</th><td class='n'>136507.0</td></tr><tr><th>FIN_BU_GU</th><td class='n'>513395.0</td></tr><tr><th>FIN_BU_SUM</th><td class='n'>649903.0</td></tr></tbody></table></div><p class='label'>debt_scale · 광주광역시도시공사 · 2022년</p><div class='wrap'><table><tbody><tr><th>AC_YEAR</th><td class='n'>2022</td></tr><tr><th>ENT_NAME</th><td class='n'>광주광역시도시공사</td></tr><tr><th>FIN_BU_YU</th><td class='n'>668830.0</td></tr><tr><th>FIN_BU_GU</th><td class='n'>339359.0</td></tr><tr><th>FIN_BU_SUM</th><td class='n'>1008189.0</td></tr></tbody></table></div></details></article>
+<article class='find'><header><span class='idx'>02</span><h4>부산도시공사</h4><span class='yr'>2022 회계연도</span></header><p class='lead'>부산도시공사: 1년 안에 갚아야 할 부채가 2022년에 3,964억원 늘었다. 전체 부채에서 차지하는 비중은 22.2%에서 52.5%로 올랐고, 총부채는 10,366억원에서 11,937억원으로 늘었다.</p><div class='scale'><i style='width:74.5%'></i></div><p class='label'>손으로 다시 계산해 볼 수 있게</p><div class='calc'>2021년 유동부채 비중 = 230,352 / 1,036,616 = 22.2%
 2022년 유동부채 비중 = 626,722 / 1,193,656 = 52.5%
 비중 증가 = 52.5% - 22.2% = 30.3%p
-유동부채 증가액 = 626,722 - 230,352 = 396,370 (백만원) = 3,964억원</div><p><strong>확인이 필요한 것</strong></p><ul class='ask'><li>만기가 도래한 것인가, 차환에 실패한 것인가. 공시에 만기 구조가 없어 이 데이터로는 구별할 수 없다.</li><li>이 기관의 사업 성격상 단기 차입을 굴리는 것이 통상적인가.</li><li>해당 연도에 계정 재분류나 회계기준 변경이 있었는가.</li></ul><details><summary>원본 자료 — 위 숫자가 나온 그 줄</summary><p class='dim'><small>debt_scale · 부산도시공사 · 2021년</small></p><div class='wrap'><table><tr><th>AC_YEAR</th><td class='n'>2021</td></tr><tr><th>ENT_NAME</th><td class='n'>부산도시공사</td></tr><tr><th>FIN_BU_YU</th><td class='n'>230352.0</td></tr><tr><th>FIN_BU_GU</th><td class='n'>806264.0</td></tr><tr><th>FIN_BU_SUM</th><td class='n'>1036616.0</td></tr></table></div><p class='dim'><small>debt_scale · 부산도시공사 · 2022년</small></p><div class='wrap'><table><tr><th>AC_YEAR</th><td class='n'>2022</td></tr><tr><th>ENT_NAME</th><td class='n'>부산도시공사</td></tr><tr><th>FIN_BU_YU</th><td class='n'>626722.0</td></tr><tr><th>FIN_BU_GU</th><td class='n'>566934.0</td></tr><tr><th>FIN_BU_SUM</th><td class='n'>1193656.0</td></tr></table></div></details></div>
-<div class='card'><h3>3. 하남도시공사 <small class='dim'>2021 회계연도</small></h3><p>하남도시공사: 1년 안에 갚아야 할 부채가 2021년에 1,979억원 늘었다. 전체 부채에서 차지하는 비중은 66.1%에서 86.9%로 올랐고, 총부채는 586억원에서 2,724억원으로 늘었다.</p><div class='calc'>2020년 유동부채 비중 = 38,775 / 58,620 = 66.1%
+유동부채 증가액 = 626,722 - 230,352 = 396,370 (백만원) = 3,964억원</div><p class='label'>사람이 확인해야 하는 것</p><ul class='ask'><li>만기가 도래한 것인가, 차환에 실패한 것인가. 공시에 만기 구조가 없어 이 데이터로는 구별할 수 없다.</li><li>이 기관의 사업 성격상 단기 차입을 굴리는 것이 통상적인가.</li><li>해당 연도에 계정 재분류나 회계기준 변경이 있었는가.</li></ul><details><summary>원본 자료 — 위 숫자가 나온 그 줄</summary><p class='label'>debt_scale · 부산도시공사 · 2021년</p><div class='wrap'><table><tbody><tr><th>AC_YEAR</th><td class='n'>2021</td></tr><tr><th>ENT_NAME</th><td class='n'>부산도시공사</td></tr><tr><th>FIN_BU_YU</th><td class='n'>230352.0</td></tr><tr><th>FIN_BU_GU</th><td class='n'>806264.0</td></tr><tr><th>FIN_BU_SUM</th><td class='n'>1036616.0</td></tr></tbody></table></div><p class='label'>debt_scale · 부산도시공사 · 2022년</p><div class='wrap'><table><tbody><tr><th>AC_YEAR</th><td class='n'>2022</td></tr><tr><th>ENT_NAME</th><td class='n'>부산도시공사</td></tr><tr><th>FIN_BU_YU</th><td class='n'>626722.0</td></tr><tr><th>FIN_BU_GU</th><td class='n'>566934.0</td></tr><tr><th>FIN_BU_SUM</th><td class='n'>1193656.0</td></tr></tbody></table></div></details></article>
+<article class='find'><header><span class='idx'>03</span><h4>하남도시공사</h4><span class='yr'>2021 회계연도</span></header><p class='lead'>하남도시공사: 1년 안에 갚아야 할 부채가 2021년에 1,979억원 늘었다. 전체 부채에서 차지하는 비중은 66.1%에서 86.9%로 올랐고, 총부채는 586억원에서 2,724억원으로 늘었다.</p><div class='scale'><i style='width:37.2%'></i></div><p class='label'>손으로 다시 계산해 볼 수 있게</p><div class='calc'>2020년 유동부채 비중 = 38,775 / 58,620 = 66.1%
 2021년 유동부채 비중 = 236,673 / 272,354 = 86.9%
 비중 증가 = 86.9% - 66.1% = 20.8%p
-유동부채 증가액 = 236,673 - 38,775 = 197,898 (백만원) = 1,979억원</div><p><strong>확인이 필요한 것</strong></p><ul class='ask'><li>만기가 도래한 것인가, 차환에 실패한 것인가. 공시에 만기 구조가 없어 이 데이터로는 구별할 수 없다.</li><li>이 기관의 사업 성격상 단기 차입을 굴리는 것이 통상적인가.</li><li>해당 연도에 계정 재분류나 회계기준 변경이 있었는가.</li></ul><details><summary>원본 자료 — 위 숫자가 나온 그 줄</summary><p class='dim'><small>debt_scale · 하남도시공사 · 2020년</small></p><div class='wrap'><table><tr><th>AC_YEAR</th><td class='n'>2020</td></tr><tr><th>ENT_NAME</th><td class='n'>하남도시공사</td></tr><tr><th>FIN_BU_YU</th><td class='n'>38775.0</td></tr><tr><th>FIN_BU_GU</th><td class='n'>19845.0</td></tr><tr><th>FIN_BU_SUM</th><td class='n'>58620.0</td></tr></table></div><p class='dim'><small>debt_scale · 하남도시공사 · 2021년</small></p><div class='wrap'><table><tr><th>AC_YEAR</th><td class='n'>2021</td></tr><tr><th>ENT_NAME</th><td class='n'>하남도시공사</td></tr><tr><th>FIN_BU_YU</th><td class='n'>236673.0</td></tr><tr><th>FIN_BU_GU</th><td class='n'>35682.0</td></tr><tr><th>FIN_BU_SUM</th><td class='n'>272354.0</td></tr></table></div></details></div>
-<div class='card'><h3>4. 하남도시공사 <small class='dim'>2023 회계연도</small></h3><p>하남도시공사: 1년 안에 갚아야 할 부채가 2023년에 1,845억원 늘었다. 전체 부채에서 차지하는 비중은 19.2%에서 74.2%로 올랐고, 총부채는 3,437억원에서 거의 그대로였다.</p><div class='calc'>2022년 유동부채 비중 = 65,934 / 343,689 = 19.2%
+유동부채 증가액 = 236,673 - 38,775 = 197,898 (백만원) = 1,979억원</div><p class='label'>사람이 확인해야 하는 것</p><ul class='ask'><li>만기가 도래한 것인가, 차환에 실패한 것인가. 공시에 만기 구조가 없어 이 데이터로는 구별할 수 없다.</li><li>이 기관의 사업 성격상 단기 차입을 굴리는 것이 통상적인가.</li><li>해당 연도에 계정 재분류나 회계기준 변경이 있었는가.</li></ul><details><summary>원본 자료 — 위 숫자가 나온 그 줄</summary><p class='label'>debt_scale · 하남도시공사 · 2020년</p><div class='wrap'><table><tbody><tr><th>AC_YEAR</th><td class='n'>2020</td></tr><tr><th>ENT_NAME</th><td class='n'>하남도시공사</td></tr><tr><th>FIN_BU_YU</th><td class='n'>38775.0</td></tr><tr><th>FIN_BU_GU</th><td class='n'>19845.0</td></tr><tr><th>FIN_BU_SUM</th><td class='n'>58620.0</td></tr></tbody></table></div><p class='label'>debt_scale · 하남도시공사 · 2021년</p><div class='wrap'><table><tbody><tr><th>AC_YEAR</th><td class='n'>2021</td></tr><tr><th>ENT_NAME</th><td class='n'>하남도시공사</td></tr><tr><th>FIN_BU_YU</th><td class='n'>236673.0</td></tr><tr><th>FIN_BU_GU</th><td class='n'>35682.0</td></tr><tr><th>FIN_BU_SUM</th><td class='n'>272354.0</td></tr></tbody></table></div></details></article>
+<article class='find'><header><span class='idx'>04</span><h4>하남도시공사</h4><span class='yr'>2023 회계연도</span></header><p class='lead'>하남도시공사: 1년 안에 갚아야 할 부채가 2023년에 1,845억원 늘었다. 전체 부채에서 차지하는 비중은 19.2%에서 74.2%로 올랐고, 총부채는 3,437억원에서 거의 그대로였다.</p><div class='scale'><i style='width:34.7%'></i></div><p class='label'>손으로 다시 계산해 볼 수 있게</p><div class='calc'>2022년 유동부채 비중 = 65,934 / 343,689 = 19.2%
 2023년 유동부채 비중 = 250,456 / 337,424 = 74.2%
 비중 증가 = 74.2% - 19.2% = 55.0%p
-유동부채 증가액 = 250,456 - 65,934 = 184,522 (백만원) = 1,845억원</div><p><strong>확인이 필요한 것</strong></p><ul class='ask'><li>만기가 도래한 것인가, 차환에 실패한 것인가. 공시에 만기 구조가 없어 이 데이터로는 구별할 수 없다.</li><li>이 기관의 사업 성격상 단기 차입을 굴리는 것이 통상적인가.</li><li>해당 연도에 계정 재분류나 회계기준 변경이 있었는가.</li></ul><details><summary>원본 자료 — 위 숫자가 나온 그 줄</summary><p class='dim'><small>debt_scale · 하남도시공사 · 2022년</small></p><div class='wrap'><table><tr><th>AC_YEAR</th><td class='n'>2022</td></tr><tr><th>ENT_NAME</th><td class='n'>하남도시공사</td></tr><tr><th>FIN_BU_YU</th><td class='n'>65934.0</td></tr><tr><th>FIN_BU_GU</th><td class='n'>277755.0</td></tr><tr><th>FIN_BU_SUM</th><td class='n'>343689.0</td></tr></table></div><p class='dim'><small>debt_scale · 하남도시공사 · 2023년</small></p><div class='wrap'><table><tr><th>AC_YEAR</th><td class='n'>2023</td></tr><tr><th>ENT_NAME</th><td class='n'>하남도시공사</td></tr><tr><th>FIN_BU_YU</th><td class='n'>250456.0</td></tr><tr><th>FIN_BU_GU</th><td class='n'>86968.0</td></tr><tr><th>FIN_BU_SUM</th><td class='n'>337424.0</td></tr></table></div></details></div>
-<div class='card'><h3>5. 안산도시공사 <small class='dim'>2024 회계연도</small></h3><p>안산도시공사: 1년 안에 갚아야 할 부채가 2024년에 1,342억원 늘었다. 전체 부채에서 차지하는 비중은 15.6%에서 65.6%로 올랐고, 총부채는 1,727억원에서 2,458억원으로 늘었다.</p><div class='calc'>2023년 유동부채 비중 = 27,026 / 172,716 = 15.6%
+유동부채 증가액 = 250,456 - 65,934 = 184,522 (백만원) = 1,845억원</div><p class='label'>사람이 확인해야 하는 것</p><ul class='ask'><li>만기가 도래한 것인가, 차환에 실패한 것인가. 공시에 만기 구조가 없어 이 데이터로는 구별할 수 없다.</li><li>이 기관의 사업 성격상 단기 차입을 굴리는 것이 통상적인가.</li><li>해당 연도에 계정 재분류나 회계기준 변경이 있었는가.</li></ul><details><summary>원본 자료 — 위 숫자가 나온 그 줄</summary><p class='label'>debt_scale · 하남도시공사 · 2022년</p><div class='wrap'><table><tbody><tr><th>AC_YEAR</th><td class='n'>2022</td></tr><tr><th>ENT_NAME</th><td class='n'>하남도시공사</td></tr><tr><th>FIN_BU_YU</th><td class='n'>65934.0</td></tr><tr><th>FIN_BU_GU</th><td class='n'>277755.0</td></tr><tr><th>FIN_BU_SUM</th><td class='n'>343689.0</td></tr></tbody></table></div><p class='label'>debt_scale · 하남도시공사 · 2023년</p><div class='wrap'><table><tbody><tr><th>AC_YEAR</th><td class='n'>2023</td></tr><tr><th>ENT_NAME</th><td class='n'>하남도시공사</td></tr><tr><th>FIN_BU_YU</th><td class='n'>250456.0</td></tr><tr><th>FIN_BU_GU</th><td class='n'>86968.0</td></tr><tr><th>FIN_BU_SUM</th><td class='n'>337424.0</td></tr></tbody></table></div></details></article>
+<article class='find'><header><span class='idx'>05</span><h4>안산도시공사</h4><span class='yr'>2024 회계연도</span></header><p class='lead'>안산도시공사: 1년 안에 갚아야 할 부채가 2024년에 1,342억원 늘었다. 전체 부채에서 차지하는 비중은 15.6%에서 65.6%로 올랐고, 총부채는 1,727억원에서 2,458억원으로 늘었다.</p><div class='scale'><i style='width:25.2%'></i></div><p class='label'>손으로 다시 계산해 볼 수 있게</p><div class='calc'>2023년 유동부채 비중 = 27,026 / 172,716 = 15.6%
 2024년 유동부채 비중 = 161,272 / 245,810 = 65.6%
 비중 증가 = 65.6% - 15.6% = 50.0%p
-유동부채 증가액 = 161,272 - 27,026 = 134,246 (백만원) = 1,342억원</div><p><strong>확인이 필요한 것</strong></p><ul class='ask'><li>만기가 도래한 것인가, 차환에 실패한 것인가. 공시에 만기 구조가 없어 이 데이터로는 구별할 수 없다.</li><li>이 기관의 사업 성격상 단기 차입을 굴리는 것이 통상적인가.</li><li>해당 연도에 계정 재분류나 회계기준 변경이 있었는가.</li></ul><details><summary>원본 자료 — 위 숫자가 나온 그 줄</summary><p class='dim'><small>debt_scale · 안산도시공사 · 2023년</small></p><div class='wrap'><table><tr><th>AC_YEAR</th><td class='n'>2023</td></tr><tr><th>ENT_NAME</th><td class='n'>안산도시공사</td></tr><tr><th>FIN_BU_YU</th><td class='n'>27026.0</td></tr><tr><th>FIN_BU_GU</th><td class='n'>145690.0</td></tr><tr><th>FIN_BU_SUM</th><td class='n'>172716.0</td></tr></table></div><p class='dim'><small>debt_scale · 안산도시공사 · 2024년</small></p><div class='wrap'><table><tr><th>AC_YEAR</th><td class='n'>2024</td></tr><tr><th>ENT_NAME</th><td class='n'>안산도시공사</td></tr><tr><th>FIN_BU_YU</th><td class='n'>161272.0</td></tr><tr><th>FIN_BU_GU</th><td class='n'>84538.0</td></tr><tr><th>FIN_BU_SUM</th><td class='n'>245810.0</td></tr></table></div></details></div>
-<div class='card'><h3>6. 용인도시공사 <small class='dim'>2024 회계연도</small></h3><p>용인도시공사: 1년 안에 갚아야 할 부채가 2024년에 1,339억원 늘었다. 전체 부채에서 차지하는 비중은 47.7%에서 92.3%로 올랐고, 총부채는 2,905억원에서 거의 그대로였다.</p><div class='calc'>2023년 유동부채 비중 = 138,657 / 290,461 = 47.7%
+유동부채 증가액 = 161,272 - 27,026 = 134,246 (백만원) = 1,342억원</div><p class='label'>사람이 확인해야 하는 것</p><ul class='ask'><li>만기가 도래한 것인가, 차환에 실패한 것인가. 공시에 만기 구조가 없어 이 데이터로는 구별할 수 없다.</li><li>이 기관의 사업 성격상 단기 차입을 굴리는 것이 통상적인가.</li><li>해당 연도에 계정 재분류나 회계기준 변경이 있었는가.</li></ul><details><summary>원본 자료 — 위 숫자가 나온 그 줄</summary><p class='label'>debt_scale · 안산도시공사 · 2023년</p><div class='wrap'><table><tbody><tr><th>AC_YEAR</th><td class='n'>2023</td></tr><tr><th>ENT_NAME</th><td class='n'>안산도시공사</td></tr><tr><th>FIN_BU_YU</th><td class='n'>27026.0</td></tr><tr><th>FIN_BU_GU</th><td class='n'>145690.0</td></tr><tr><th>FIN_BU_SUM</th><td class='n'>172716.0</td></tr></tbody></table></div><p class='label'>debt_scale · 안산도시공사 · 2024년</p><div class='wrap'><table><tbody><tr><th>AC_YEAR</th><td class='n'>2024</td></tr><tr><th>ENT_NAME</th><td class='n'>안산도시공사</td></tr><tr><th>FIN_BU_YU</th><td class='n'>161272.0</td></tr><tr><th>FIN_BU_GU</th><td class='n'>84538.0</td></tr><tr><th>FIN_BU_SUM</th><td class='n'>245810.0</td></tr></tbody></table></div></details></article>
+<article class='find'><header><span class='idx'>06</span><h4>용인도시공사</h4><span class='yr'>2024 회계연도</span></header><p class='lead'>용인도시공사: 1년 안에 갚아야 할 부채가 2024년에 1,339억원 늘었다. 전체 부채에서 차지하는 비중은 47.7%에서 92.3%로 올랐고, 총부채는 2,905억원에서 거의 그대로였다.</p><div class='scale'><i style='width:25.2%'></i></div><p class='label'>손으로 다시 계산해 볼 수 있게</p><div class='calc'>2023년 유동부채 비중 = 138,657 / 290,461 = 47.7%
 2024년 유동부채 비중 = 272,602 / 295,438 = 92.3%
 비중 증가 = 92.3% - 47.7% = 44.5%p
-유동부채 증가액 = 272,602 - 138,657 = 133,945 (백만원) = 1,339억원</div><p><strong>확인이 필요한 것</strong></p><ul class='ask'><li>만기가 도래한 것인가, 차환에 실패한 것인가. 공시에 만기 구조가 없어 이 데이터로는 구별할 수 없다.</li><li>이 기관의 사업 성격상 단기 차입을 굴리는 것이 통상적인가.</li><li>해당 연도에 계정 재분류나 회계기준 변경이 있었는가.</li></ul><details><summary>원본 자료 — 위 숫자가 나온 그 줄</summary><p class='dim'><small>debt_scale · 용인도시공사 · 2023년</small></p><div class='wrap'><table><tr><th>AC_YEAR</th><td class='n'>2023</td></tr><tr><th>ENT_NAME</th><td class='n'>용인도시공사</td></tr><tr><th>FIN_BU_YU</th><td class='n'>138657.0</td></tr><tr><th>FIN_BU_GU</th><td class='n'>151803.0</td></tr><tr><th>FIN_BU_SUM</th><td class='n'>290461.0</td></tr></table></div><p class='dim'><small>debt_scale · 용인도시공사 · 2024년</small></p><div class='wrap'><table><tr><th>AC_YEAR</th><td class='n'>2024</td></tr><tr><th>ENT_NAME</th><td class='n'>용인도시공사</td></tr><tr><th>FIN_BU_YU</th><td class='n'>272602.0</td></tr><tr><th>FIN_BU_GU</th><td class='n'>22836.0</td></tr><tr><th>FIN_BU_SUM</th><td class='n'>295438.0</td></tr></table></div></details></div>
-<div class='card'><h3>7. 울산광역시도시공사 <small class='dim'>2022 회계연도</small></h3><p>울산광역시도시공사: 1년 안에 갚아야 할 부채가 2022년에 1,152억원 늘었다. 전체 부채에서 차지하는 비중은 38.5%에서 58.8%로 올랐고, 총부채는 2,868억원에서 3,835억원으로 늘었다.</p><div class='calc'>2021년 유동부채 비중 = 110,374 / 286,820 = 38.5%
+유동부채 증가액 = 272,602 - 138,657 = 133,945 (백만원) = 1,339억원</div><p class='label'>사람이 확인해야 하는 것</p><ul class='ask'><li>만기가 도래한 것인가, 차환에 실패한 것인가. 공시에 만기 구조가 없어 이 데이터로는 구별할 수 없다.</li><li>이 기관의 사업 성격상 단기 차입을 굴리는 것이 통상적인가.</li><li>해당 연도에 계정 재분류나 회계기준 변경이 있었는가.</li></ul><details><summary>원본 자료 — 위 숫자가 나온 그 줄</summary><p class='label'>debt_scale · 용인도시공사 · 2023년</p><div class='wrap'><table><tbody><tr><th>AC_YEAR</th><td class='n'>2023</td></tr><tr><th>ENT_NAME</th><td class='n'>용인도시공사</td></tr><tr><th>FIN_BU_YU</th><td class='n'>138657.0</td></tr><tr><th>FIN_BU_GU</th><td class='n'>151803.0</td></tr><tr><th>FIN_BU_SUM</th><td class='n'>290461.0</td></tr></tbody></table></div><p class='label'>debt_scale · 용인도시공사 · 2024년</p><div class='wrap'><table><tbody><tr><th>AC_YEAR</th><td class='n'>2024</td></tr><tr><th>ENT_NAME</th><td class='n'>용인도시공사</td></tr><tr><th>FIN_BU_YU</th><td class='n'>272602.0</td></tr><tr><th>FIN_BU_GU</th><td class='n'>22836.0</td></tr><tr><th>FIN_BU_SUM</th><td class='n'>295438.0</td></tr></tbody></table></div></details></article>
+<article class='find'><header><span class='idx'>07</span><h4>울산광역시도시공사</h4><span class='yr'>2022 회계연도</span></header><p class='lead'>울산광역시도시공사: 1년 안에 갚아야 할 부채가 2022년에 1,152억원 늘었다. 전체 부채에서 차지하는 비중은 38.5%에서 58.8%로 올랐고, 총부채는 2,868억원에서 3,835억원으로 늘었다.</p><div class='scale'><i style='width:21.6%'></i></div><p class='label'>손으로 다시 계산해 볼 수 있게</p><div class='calc'>2021년 유동부채 비중 = 110,374 / 286,820 = 38.5%
 2022년 유동부채 비중 = 225,565 / 383,549 = 58.8%
 비중 증가 = 58.8% - 38.5% = 20.3%p
-유동부채 증가액 = 225,565 - 110,374 = 115,191 (백만원) = 1,152억원</div><p><strong>확인이 필요한 것</strong></p><ul class='ask'><li>만기가 도래한 것인가, 차환에 실패한 것인가. 공시에 만기 구조가 없어 이 데이터로는 구별할 수 없다.</li><li>이 기관의 사업 성격상 단기 차입을 굴리는 것이 통상적인가.</li><li>해당 연도에 계정 재분류나 회계기준 변경이 있었는가.</li></ul><details><summary>원본 자료 — 위 숫자가 나온 그 줄</summary><p class='dim'><small>debt_scale · 울산광역시도시공사 · 2021년</small></p><div class='wrap'><table><tr><th>AC_YEAR</th><td class='n'>2021</td></tr><tr><th>ENT_NAME</th><td class='n'>울산광역시도시공사</td></tr><tr><th>FIN_BU_YU</th><td class='n'>110374.0</td></tr><tr><th>FIN_BU_GU</th><td class='n'>176447.0</td></tr><tr><th>FIN_BU_SUM</th><td class='n'>286820.0</td></tr></table></div><p class='dim'><small>debt_scale · 울산광역시도시공사 · 2022년</small></p><div class='wrap'><table><tr><th>AC_YEAR</th><td class='n'>2022</td></tr><tr><th>ENT_NAME</th><td class='n'>울산광역시도시공사</td></tr><tr><th>FIN_BU_YU</th><td class='n'>225565.0</td></tr><tr><th>FIN_BU_GU</th><td class='n'>157984.0</td></tr><tr><th>FIN_BU_SUM</th><td class='n'>383549.0</td></tr></table></div></details></div>
-<div class='card'><h3>8. 전남개발공사 <small class='dim'>2023 회계연도</small></h3><p>전남개발공사: 1년 안에 갚아야 할 부채가 2023년에 1,114억원 늘었다. 전체 부채에서 차지하는 비중은 34.0%에서 68.0%로 올랐고, 총부채는 4,135억원에서 3,706억원으로 줄었다.</p><div class='calc'>2022년 유동부채 비중 = 140,442 / 413,467 = 34.0%
+유동부채 증가액 = 225,565 - 110,374 = 115,191 (백만원) = 1,152억원</div><p class='label'>사람이 확인해야 하는 것</p><ul class='ask'><li>만기가 도래한 것인가, 차환에 실패한 것인가. 공시에 만기 구조가 없어 이 데이터로는 구별할 수 없다.</li><li>이 기관의 사업 성격상 단기 차입을 굴리는 것이 통상적인가.</li><li>해당 연도에 계정 재분류나 회계기준 변경이 있었는가.</li></ul><details><summary>원본 자료 — 위 숫자가 나온 그 줄</summary><p class='label'>debt_scale · 울산광역시도시공사 · 2021년</p><div class='wrap'><table><tbody><tr><th>AC_YEAR</th><td class='n'>2021</td></tr><tr><th>ENT_NAME</th><td class='n'>울산광역시도시공사</td></tr><tr><th>FIN_BU_YU</th><td class='n'>110374.0</td></tr><tr><th>FIN_BU_GU</th><td class='n'>176447.0</td></tr><tr><th>FIN_BU_SUM</th><td class='n'>286820.0</td></tr></tbody></table></div><p class='label'>debt_scale · 울산광역시도시공사 · 2022년</p><div class='wrap'><table><tbody><tr><th>AC_YEAR</th><td class='n'>2022</td></tr><tr><th>ENT_NAME</th><td class='n'>울산광역시도시공사</td></tr><tr><th>FIN_BU_YU</th><td class='n'>225565.0</td></tr><tr><th>FIN_BU_GU</th><td class='n'>157984.0</td></tr><tr><th>FIN_BU_SUM</th><td class='n'>383549.0</td></tr></tbody></table></div></details></article>
+<article class='find'><header><span class='idx'>08</span><h4>전남개발공사</h4><span class='yr'>2023 회계연도</span></header><p class='lead'>전남개발공사: 1년 안에 갚아야 할 부채가 2023년에 1,114억원 늘었다. 전체 부채에서 차지하는 비중은 34.0%에서 68.0%로 올랐고, 총부채는 4,135억원에서 3,706억원으로 줄었다.</p><div class='scale'><i style='width:20.9%'></i></div><p class='label'>손으로 다시 계산해 볼 수 있게</p><div class='calc'>2022년 유동부채 비중 = 140,442 / 413,467 = 34.0%
 2023년 유동부채 비중 = 251,880 / 370,590 = 68.0%
 비중 증가 = 68.0% - 34.0% = 34.0%p
-유동부채 증가액 = 251,880 - 140,442 = 111,438 (백만원) = 1,114억원</div><p><strong>확인이 필요한 것</strong></p><ul class='ask'><li>만기가 도래한 것인가, 차환에 실패한 것인가. 공시에 만기 구조가 없어 이 데이터로는 구별할 수 없다.</li><li>이 기관의 사업 성격상 단기 차입을 굴리는 것이 통상적인가.</li><li>해당 연도에 계정 재분류나 회계기준 변경이 있었는가.</li></ul><details><summary>원본 자료 — 위 숫자가 나온 그 줄</summary><p class='dim'><small>debt_scale · 전남개발공사 · 2022년</small></p><div class='wrap'><table><tr><th>AC_YEAR</th><td class='n'>2022</td></tr><tr><th>ENT_NAME</th><td class='n'>전남개발공사</td></tr><tr><th>FIN_BU_YU</th><td class='n'>140442.0</td></tr><tr><th>FIN_BU_GU</th><td class='n'>273024.0</td></tr><tr><th>FIN_BU_SUM</th><td class='n'>413467.0</td></tr></table></div><p class='dim'><small>debt_scale · 전남개발공사 · 2023년</small></p><div class='wrap'><table><tr><th>AC_YEAR</th><td class='n'>2023</td></tr><tr><th>ENT_NAME</th><td class='n'>전남개발공사</td></tr><tr><th>FIN_BU_YU</th><td class='n'>251880.0</td></tr><tr><th>FIN_BU_GU</th><td class='n'>118710.0</td></tr><tr><th>FIN_BU_SUM</th><td class='n'>370590.0</td></tr></table></div></details></div>
-<div class='card'><h3>9. 대전도시공사 <small class='dim'>2022 회계연도</small></h3><p>대전도시공사: 1년 안에 갚아야 할 부채가 2022년에 1,076억원 늘었다. 전체 부채에서 차지하는 비중은 43.6%에서 64.6%로 올랐고, 총부채는 5,945억원에서 거의 그대로였다.</p><div class='calc'>2021년 유동부채 비중 = 259,280 / 594,496 = 43.6%
+유동부채 증가액 = 251,880 - 140,442 = 111,438 (백만원) = 1,114억원</div><p class='label'>사람이 확인해야 하는 것</p><ul class='ask'><li>만기가 도래한 것인가, 차환에 실패한 것인가. 공시에 만기 구조가 없어 이 데이터로는 구별할 수 없다.</li><li>이 기관의 사업 성격상 단기 차입을 굴리는 것이 통상적인가.</li><li>해당 연도에 계정 재분류나 회계기준 변경이 있었는가.</li></ul><details><summary>원본 자료 — 위 숫자가 나온 그 줄</summary><p class='label'>debt_scale · 전남개발공사 · 2022년</p><div class='wrap'><table><tbody><tr><th>AC_YEAR</th><td class='n'>2022</td></tr><tr><th>ENT_NAME</th><td class='n'>전남개발공사</td></tr><tr><th>FIN_BU_YU</th><td class='n'>140442.0</td></tr><tr><th>FIN_BU_GU</th><td class='n'>273024.0</td></tr><tr><th>FIN_BU_SUM</th><td class='n'>413467.0</td></tr></tbody></table></div><p class='label'>debt_scale · 전남개발공사 · 2023년</p><div class='wrap'><table><tbody><tr><th>AC_YEAR</th><td class='n'>2023</td></tr><tr><th>ENT_NAME</th><td class='n'>전남개발공사</td></tr><tr><th>FIN_BU_YU</th><td class='n'>251880.0</td></tr><tr><th>FIN_BU_GU</th><td class='n'>118710.0</td></tr><tr><th>FIN_BU_SUM</th><td class='n'>370590.0</td></tr></tbody></table></div></details></article>
+<article class='find'><header><span class='idx'>09</span><h4>대전도시공사</h4><span class='yr'>2022 회계연도</span></header><p class='lead'>대전도시공사: 1년 안에 갚아야 할 부채가 2022년에 1,076억원 늘었다. 전체 부채에서 차지하는 비중은 43.6%에서 64.6%로 올랐고, 총부채는 5,945억원에서 거의 그대로였다.</p><div class='scale'><i style='width:20.2%'></i></div><p class='label'>손으로 다시 계산해 볼 수 있게</p><div class='calc'>2021년 유동부채 비중 = 259,280 / 594,496 = 43.6%
 2022년 유동부채 비중 = 366,852 / 567,902 = 64.6%
 비중 증가 = 64.6% - 43.6% = 21.0%p
-유동부채 증가액 = 366,852 - 259,280 = 107,572 (백만원) = 1,076억원</div><p><strong>확인이 필요한 것</strong></p><ul class='ask'><li>만기가 도래한 것인가, 차환에 실패한 것인가. 공시에 만기 구조가 없어 이 데이터로는 구별할 수 없다.</li><li>이 기관의 사업 성격상 단기 차입을 굴리는 것이 통상적인가.</li><li>해당 연도에 계정 재분류나 회계기준 변경이 있었는가.</li></ul><details><summary>원본 자료 — 위 숫자가 나온 그 줄</summary><p class='dim'><small>debt_scale · 대전도시공사 · 2021년</small></p><div class='wrap'><table><tr><th>AC_YEAR</th><td class='n'>2021</td></tr><tr><th>ENT_NAME</th><td class='n'>대전도시공사</td></tr><tr><th>FIN_BU_YU</th><td class='n'>259280.0</td></tr><tr><th>FIN_BU_GU</th><td class='n'>335216.0</td></tr><tr><th>FIN_BU_SUM</th><td class='n'>594496.0</td></tr></table></div><p class='dim'><small>debt_scale · 대전도시공사 · 2022년</small></p><div class='wrap'><table><tr><th>AC_YEAR</th><td class='n'>2022</td></tr><tr><th>ENT_NAME</th><td class='n'>대전도시공사</td></tr><tr><th>FIN_BU_YU</th><td class='n'>366852.0</td></tr><tr><th>FIN_BU_GU</th><td class='n'>201050.0</td></tr><tr><th>FIN_BU_SUM</th><td class='n'>567902.0</td></tr></table></div></details></div>
-<div class='card'><h3>10. 강원개발공사 <small class='dim'>2024 회계연도</small></h3><p>강원개발공사: 1년 안에 갚아야 할 부채가 2024년에 1,061억원 늘었다. 전체 부채에서 차지하는 비중은 41.5%에서 64.3%로 올랐고, 총부채는 6,664억원에서 5,949억원으로 줄었다.</p><div class='calc'>2023년 유동부채 비중 = 276,665 / 666,421 = 41.5%
+유동부채 증가액 = 366,852 - 259,280 = 107,572 (백만원) = 1,076억원</div><p class='label'>사람이 확인해야 하는 것</p><ul class='ask'><li>만기가 도래한 것인가, 차환에 실패한 것인가. 공시에 만기 구조가 없어 이 데이터로는 구별할 수 없다.</li><li>이 기관의 사업 성격상 단기 차입을 굴리는 것이 통상적인가.</li><li>해당 연도에 계정 재분류나 회계기준 변경이 있었는가.</li></ul><details><summary>원본 자료 — 위 숫자가 나온 그 줄</summary><p class='label'>debt_scale · 대전도시공사 · 2021년</p><div class='wrap'><table><tbody><tr><th>AC_YEAR</th><td class='n'>2021</td></tr><tr><th>ENT_NAME</th><td class='n'>대전도시공사</td></tr><tr><th>FIN_BU_YU</th><td class='n'>259280.0</td></tr><tr><th>FIN_BU_GU</th><td class='n'>335216.0</td></tr><tr><th>FIN_BU_SUM</th><td class='n'>594496.0</td></tr></tbody></table></div><p class='label'>debt_scale · 대전도시공사 · 2022년</p><div class='wrap'><table><tbody><tr><th>AC_YEAR</th><td class='n'>2022</td></tr><tr><th>ENT_NAME</th><td class='n'>대전도시공사</td></tr><tr><th>FIN_BU_YU</th><td class='n'>366852.0</td></tr><tr><th>FIN_BU_GU</th><td class='n'>201050.0</td></tr><tr><th>FIN_BU_SUM</th><td class='n'>567902.0</td></tr></tbody></table></div></details></article>
+<article class='find'><header><span class='idx'>10</span><h4>강원개발공사</h4><span class='yr'>2024 회계연도</span></header><p class='lead'>강원개발공사: 1년 안에 갚아야 할 부채가 2024년에 1,061억원 늘었다. 전체 부채에서 차지하는 비중은 41.5%에서 64.3%로 올랐고, 총부채는 6,664억원에서 5,949억원으로 줄었다.</p><div class='scale'><i style='width:19.9%'></i></div><p class='label'>손으로 다시 계산해 볼 수 있게</p><div class='calc'>2023년 유동부채 비중 = 276,665 / 666,421 = 41.5%
 2024년 유동부채 비중 = 382,742 / 594,922 = 64.3%
 비중 증가 = 64.3% - 41.5% = 22.8%p
-유동부채 증가액 = 382,742 - 276,665 = 106,077 (백만원) = 1,061억원</div><p><strong>확인이 필요한 것</strong></p><ul class='ask'><li>만기가 도래한 것인가, 차환에 실패한 것인가. 공시에 만기 구조가 없어 이 데이터로는 구별할 수 없다.</li><li>이 기관의 사업 성격상 단기 차입을 굴리는 것이 통상적인가.</li><li>해당 연도에 계정 재분류나 회계기준 변경이 있었는가.</li></ul><details><summary>원본 자료 — 위 숫자가 나온 그 줄</summary><p class='dim'><small>debt_scale · 강원개발공사 · 2023년</small></p><div class='wrap'><table><tr><th>AC_YEAR</th><td class='n'>2023</td></tr><tr><th>ENT_NAME</th><td class='n'>강원개발공사</td></tr><tr><th>FIN_BU_YU</th><td class='n'>276665.0</td></tr><tr><th>FIN_BU_GU</th><td class='n'>389756.0</td></tr><tr><th>FIN_BU_SUM</th><td class='n'>666421.0</td></tr></table></div><p class='dim'><small>debt_scale · 강원개발공사 · 2024년</small></p><div class='wrap'><table><tr><th>AC_YEAR</th><td class='n'>2024</td></tr><tr><th>ENT_NAME</th><td class='n'>강원개발공사</td></tr><tr><th>FIN_BU_YU</th><td class='n'>382742.0</td></tr><tr><th>FIN_BU_GU</th><td class='n'>212180.0</td></tr><tr><th>FIN_BU_SUM</th><td class='n'>594922.0</td></tr></table></div></details></div>
-<div class='card'><h3>11. 성남시공영개발 <small class='dim'>2024 회계연도</small></h3><p>성남시공영개발: 1년 안에 갚아야 할 부채가 2024년에 703억원 늘었다. 전체 부채에서 차지하는 비중은 0.7%에서 90.3%로 올랐고, 총부채는 79억원에서 780억원으로 늘었다.</p><div class='calc'>2023년 유동부채 비중 = 59 / 7,886 = 0.7%
+유동부채 증가액 = 382,742 - 276,665 = 106,077 (백만원) = 1,061억원</div><p class='label'>사람이 확인해야 하는 것</p><ul class='ask'><li>만기가 도래한 것인가, 차환에 실패한 것인가. 공시에 만기 구조가 없어 이 데이터로는 구별할 수 없다.</li><li>이 기관의 사업 성격상 단기 차입을 굴리는 것이 통상적인가.</li><li>해당 연도에 계정 재분류나 회계기준 변경이 있었는가.</li></ul><details><summary>원본 자료 — 위 숫자가 나온 그 줄</summary><p class='label'>debt_scale · 강원개발공사 · 2023년</p><div class='wrap'><table><tbody><tr><th>AC_YEAR</th><td class='n'>2023</td></tr><tr><th>ENT_NAME</th><td class='n'>강원개발공사</td></tr><tr><th>FIN_BU_YU</th><td class='n'>276665.0</td></tr><tr><th>FIN_BU_GU</th><td class='n'>389756.0</td></tr><tr><th>FIN_BU_SUM</th><td class='n'>666421.0</td></tr></tbody></table></div><p class='label'>debt_scale · 강원개발공사 · 2024년</p><div class='wrap'><table><tbody><tr><th>AC_YEAR</th><td class='n'>2024</td></tr><tr><th>ENT_NAME</th><td class='n'>강원개발공사</td></tr><tr><th>FIN_BU_YU</th><td class='n'>382742.0</td></tr><tr><th>FIN_BU_GU</th><td class='n'>212180.0</td></tr><tr><th>FIN_BU_SUM</th><td class='n'>594922.0</td></tr></tbody></table></div></details></article>
+<article class='find'><header><span class='idx'>11</span><h4>성남시공영개발</h4><span class='yr'>2024 회계연도</span></header><p class='lead'>성남시공영개발: 1년 안에 갚아야 할 부채가 2024년에 703억원 늘었다. 전체 부채에서 차지하는 비중은 0.7%에서 90.3%로 올랐고, 총부채는 79억원에서 780억원으로 늘었다.</p><div class='scale'><i style='width:13.2%'></i></div><p class='label'>손으로 다시 계산해 볼 수 있게</p><div class='calc'>2023년 유동부채 비중 = 59 / 7,886 = 0.7%
 2024년 유동부채 비중 = 70,359 / 77,960 = 90.3%
 비중 증가 = 90.3% - 0.7% = 89.5%p
-유동부채 증가액 = 70,359 - 59 = 70,300 (백만원) = 703억원</div><p><strong>확인이 필요한 것</strong></p><ul class='ask'><li>만기가 도래한 것인가, 차환에 실패한 것인가. 공시에 만기 구조가 없어 이 데이터로는 구별할 수 없다.</li><li>이 기관의 사업 성격상 단기 차입을 굴리는 것이 통상적인가.</li><li>해당 연도에 계정 재분류나 회계기준 변경이 있었는가.</li></ul><details><summary>원본 자료 — 위 숫자가 나온 그 줄</summary><p class='dim'><small>debt_scale · 성남시공영개발 · 2023년</small></p><div class='wrap'><table><tr><th>AC_YEAR</th><td class='n'>2023</td></tr><tr><th>ENT_NAME</th><td class='n'>성남시공영개발</td></tr><tr><th>FIN_BU_YU</th><td class='n'>59.0</td></tr><tr><th>FIN_BU_GU</th><td class='n'>7827.0</td></tr><tr><th>FIN_BU_SUM</th><td class='n'>7886.0</td></tr></table></div><p class='dim'><small>debt_scale · 성남시공영개발 · 2024년</small></p><div class='wrap'><table><tr><th>AC_YEAR</th><td class='n'>2024</td></tr><tr><th>ENT_NAME</th><td class='n'>성남시공영개발</td></tr><tr><th>FIN_BU_YU</th><td class='n'>70359.0</td></tr><tr><th>FIN_BU_GU</th><td class='n'>7601.0</td></tr><tr><th>FIN_BU_SUM</th><td class='n'>77960.0</td></tr></table></div></details></div>
-<div class='card'><h3>12. 과천도시공사 <small class='dim'>2024 회계연도</small></h3><p>과천도시공사: 1년 안에 갚아야 할 부채가 2024년에 625억원 늘었다. 전체 부채에서 차지하는 비중은 29.8%에서 61.2%로 올랐고, 총부채는 2,680억원에서 2,322억원으로 줄었다.</p><div class='calc'>2023년 유동부채 비중 = 79,738 / 267,989 = 29.8%
+유동부채 증가액 = 70,359 - 59 = 70,300 (백만원) = 703억원</div><p class='label'>사람이 확인해야 하는 것</p><ul class='ask'><li>만기가 도래한 것인가, 차환에 실패한 것인가. 공시에 만기 구조가 없어 이 데이터로는 구별할 수 없다.</li><li>이 기관의 사업 성격상 단기 차입을 굴리는 것이 통상적인가.</li><li>해당 연도에 계정 재분류나 회계기준 변경이 있었는가.</li></ul><details><summary>원본 자료 — 위 숫자가 나온 그 줄</summary><p class='label'>debt_scale · 성남시공영개발 · 2023년</p><div class='wrap'><table><tbody><tr><th>AC_YEAR</th><td class='n'>2023</td></tr><tr><th>ENT_NAME</th><td class='n'>성남시공영개발</td></tr><tr><th>FIN_BU_YU</th><td class='n'>59.0</td></tr><tr><th>FIN_BU_GU</th><td class='n'>7827.0</td></tr><tr><th>FIN_BU_SUM</th><td class='n'>7886.0</td></tr></tbody></table></div><p class='label'>debt_scale · 성남시공영개발 · 2024년</p><div class='wrap'><table><tbody><tr><th>AC_YEAR</th><td class='n'>2024</td></tr><tr><th>ENT_NAME</th><td class='n'>성남시공영개발</td></tr><tr><th>FIN_BU_YU</th><td class='n'>70359.0</td></tr><tr><th>FIN_BU_GU</th><td class='n'>7601.0</td></tr><tr><th>FIN_BU_SUM</th><td class='n'>77960.0</td></tr></tbody></table></div></details></article>
+<article class='find'><header><span class='idx'>12</span><h4>과천도시공사</h4><span class='yr'>2024 회계연도</span></header><p class='lead'>과천도시공사: 1년 안에 갚아야 할 부채가 2024년에 625억원 늘었다. 전체 부채에서 차지하는 비중은 29.8%에서 61.2%로 올랐고, 총부채는 2,680억원에서 2,322억원으로 줄었다.</p><div class='scale'><i style='width:11.7%'></i></div><p class='label'>손으로 다시 계산해 볼 수 있게</p><div class='calc'>2023년 유동부채 비중 = 79,738 / 267,989 = 29.8%
 2024년 유동부채 비중 = 142,197 / 232,208 = 61.2%
 비중 증가 = 61.2% - 29.8% = 31.5%p
-유동부채 증가액 = 142,197 - 79,738 = 62,459 (백만원) = 625억원</div><p><strong>확인이 필요한 것</strong></p><ul class='ask'><li>만기가 도래한 것인가, 차환에 실패한 것인가. 공시에 만기 구조가 없어 이 데이터로는 구별할 수 없다.</li><li>이 기관의 사업 성격상 단기 차입을 굴리는 것이 통상적인가.</li><li>해당 연도에 계정 재분류나 회계기준 변경이 있었는가.</li></ul><details><summary>원본 자료 — 위 숫자가 나온 그 줄</summary><p class='dim'><small>debt_scale · 과천도시공사 · 2023년</small></p><div class='wrap'><table><tr><th>AC_YEAR</th><td class='n'>2023</td></tr><tr><th>ENT_NAME</th><td class='n'>과천도시공사</td></tr><tr><th>FIN_BU_YU</th><td class='n'>79738.0</td></tr><tr><th>FIN_BU_GU</th><td class='n'>188251.0</td></tr><tr><th>FIN_BU_SUM</th><td class='n'>267989.0</td></tr></table></div><p class='dim'><small>debt_scale · 과천도시공사 · 2024년</small></p><div class='wrap'><table><tr><th>AC_YEAR</th><td class='n'>2024</td></tr><tr><th>ENT_NAME</th><td class='n'>과천도시공사</td></tr><tr><th>FIN_BU_YU</th><td class='n'>142197.0</td></tr><tr><th>FIN_BU_GU</th><td class='n'>90012.0</td></tr><tr><th>FIN_BU_SUM</th><td class='n'>232208.0</td></tr></table></div></details></div>
-<div class='card'><h3>13. 시흥도시공사 <small class='dim'>2022 회계연도</small></h3><p>시흥도시공사: 1년 안에 갚아야 할 부채가 2022년에 417억원 늘었다. 전체 부채에서 차지하는 비중은 15.3%에서 80.8%로 올랐고, 총부채는 708억원에서 651억원으로 줄었다.</p><div class='calc'>2021년 유동부채 비중 = 10,850 / 70,758 = 15.3%
+유동부채 증가액 = 142,197 - 79,738 = 62,459 (백만원) = 625억원</div><p class='label'>사람이 확인해야 하는 것</p><ul class='ask'><li>만기가 도래한 것인가, 차환에 실패한 것인가. 공시에 만기 구조가 없어 이 데이터로는 구별할 수 없다.</li><li>이 기관의 사업 성격상 단기 차입을 굴리는 것이 통상적인가.</li><li>해당 연도에 계정 재분류나 회계기준 변경이 있었는가.</li></ul><details><summary>원본 자료 — 위 숫자가 나온 그 줄</summary><p class='label'>debt_scale · 과천도시공사 · 2023년</p><div class='wrap'><table><tbody><tr><th>AC_YEAR</th><td class='n'>2023</td></tr><tr><th>ENT_NAME</th><td class='n'>과천도시공사</td></tr><tr><th>FIN_BU_YU</th><td class='n'>79738.0</td></tr><tr><th>FIN_BU_GU</th><td class='n'>188251.0</td></tr><tr><th>FIN_BU_SUM</th><td class='n'>267989.0</td></tr></tbody></table></div><p class='label'>debt_scale · 과천도시공사 · 2024년</p><div class='wrap'><table><tbody><tr><th>AC_YEAR</th><td class='n'>2024</td></tr><tr><th>ENT_NAME</th><td class='n'>과천도시공사</td></tr><tr><th>FIN_BU_YU</th><td class='n'>142197.0</td></tr><tr><th>FIN_BU_GU</th><td class='n'>90012.0</td></tr><tr><th>FIN_BU_SUM</th><td class='n'>232208.0</td></tr></tbody></table></div></details></article>
+<article class='find'><header><span class='idx'>13</span><h4>시흥도시공사</h4><span class='yr'>2022 회계연도</span></header><p class='lead'>시흥도시공사: 1년 안에 갚아야 할 부채가 2022년에 417억원 늘었다. 전체 부채에서 차지하는 비중은 15.3%에서 80.8%로 올랐고, 총부채는 708억원에서 651억원으로 줄었다.</p><div class='scale'><i style='width:7.8%'></i></div><p class='label'>손으로 다시 계산해 볼 수 있게</p><div class='calc'>2021년 유동부채 비중 = 10,850 / 70,758 = 15.3%
 2022년 유동부채 비중 = 52,582 / 65,080 = 80.8%
 비중 증가 = 80.8% - 15.3% = 65.5%p
-유동부채 증가액 = 52,582 - 10,850 = 41,732 (백만원) = 417억원</div><p><strong>확인이 필요한 것</strong></p><ul class='ask'><li>만기가 도래한 것인가, 차환에 실패한 것인가. 공시에 만기 구조가 없어 이 데이터로는 구별할 수 없다.</li><li>이 기관의 사업 성격상 단기 차입을 굴리는 것이 통상적인가.</li><li>해당 연도에 계정 재분류나 회계기준 변경이 있었는가.</li></ul><details><summary>원본 자료 — 위 숫자가 나온 그 줄</summary><p class='dim'><small>debt_scale · 시흥도시공사 · 2021년</small></p><div class='wrap'><table><tr><th>AC_YEAR</th><td class='n'>2021</td></tr><tr><th>ENT_NAME</th><td class='n'>시흥도시공사</td></tr><tr><th>FIN_BU_YU</th><td class='n'>10850.0</td></tr><tr><th>FIN_BU_GU</th><td class='n'>59908.0</td></tr><tr><th>FIN_BU_SUM</th><td class='n'>70758.0</td></tr></table></div><p class='dim'><small>debt_scale · 시흥도시공사 · 2022년</small></p><div class='wrap'><table><tr><th>AC_YEAR</th><td class='n'>2022</td></tr><tr><th>ENT_NAME</th><td class='n'>시흥도시공사</td></tr><tr><th>FIN_BU_YU</th><td class='n'>52582.0</td></tr><tr><th>FIN_BU_GU</th><td class='n'>12498.0</td></tr><tr><th>FIN_BU_SUM</th><td class='n'>65080.0</td></tr></table></div></details></div>
-<div class='card'><h3>14. 천안시상수도 <small class='dim'>2024 회계연도</small></h3><p>천안시상수도: 1년 안에 갚아야 할 부채가 2024년에 287억원 늘었다. 전체 부채에서 차지하는 비중은 46.4%에서 96.1%로 올랐고, 총부채는 25억원에서 311억원으로 늘었다.</p><div class='calc'>2023년 유동부채 비중 = 1,173 / 2,528 = 46.4%
+유동부채 증가액 = 52,582 - 10,850 = 41,732 (백만원) = 417억원</div><p class='label'>사람이 확인해야 하는 것</p><ul class='ask'><li>만기가 도래한 것인가, 차환에 실패한 것인가. 공시에 만기 구조가 없어 이 데이터로는 구별할 수 없다.</li><li>이 기관의 사업 성격상 단기 차입을 굴리는 것이 통상적인가.</li><li>해당 연도에 계정 재분류나 회계기준 변경이 있었는가.</li></ul><details><summary>원본 자료 — 위 숫자가 나온 그 줄</summary><p class='label'>debt_scale · 시흥도시공사 · 2021년</p><div class='wrap'><table><tbody><tr><th>AC_YEAR</th><td class='n'>2021</td></tr><tr><th>ENT_NAME</th><td class='n'>시흥도시공사</td></tr><tr><th>FIN_BU_YU</th><td class='n'>10850.0</td></tr><tr><th>FIN_BU_GU</th><td class='n'>59908.0</td></tr><tr><th>FIN_BU_SUM</th><td class='n'>70758.0</td></tr></tbody></table></div><p class='label'>debt_scale · 시흥도시공사 · 2022년</p><div class='wrap'><table><tbody><tr><th>AC_YEAR</th><td class='n'>2022</td></tr><tr><th>ENT_NAME</th><td class='n'>시흥도시공사</td></tr><tr><th>FIN_BU_YU</th><td class='n'>52582.0</td></tr><tr><th>FIN_BU_GU</th><td class='n'>12498.0</td></tr><tr><th>FIN_BU_SUM</th><td class='n'>65080.0</td></tr></tbody></table></div></details></article>
+<article class='find'><header><span class='idx'>14</span><h4>천안시상수도</h4><span class='yr'>2024 회계연도</span></header><p class='lead'>천안시상수도: 1년 안에 갚아야 할 부채가 2024년에 287억원 늘었다. 전체 부채에서 차지하는 비중은 46.4%에서 96.1%로 올랐고, 총부채는 25억원에서 311억원으로 늘었다.</p><div class='scale'><i style='width:5.4%'></i></div><p class='label'>손으로 다시 계산해 볼 수 있게</p><div class='calc'>2023년 유동부채 비중 = 1,173 / 2,528 = 46.4%
 2024년 유동부채 비중 = 29,872 / 31,083 = 96.1%
 비중 증가 = 96.1% - 46.4% = 49.7%p
-유동부채 증가액 = 29,872 - 1,173 = 28,699 (백만원) = 287억원</div><p><strong>확인이 필요한 것</strong></p><ul class='ask'><li>만기가 도래한 것인가, 차환에 실패한 것인가. 공시에 만기 구조가 없어 이 데이터로는 구별할 수 없다.</li><li>이 기관의 사업 성격상 단기 차입을 굴리는 것이 통상적인가.</li><li>해당 연도에 계정 재분류나 회계기준 변경이 있었는가.</li></ul><details><summary>원본 자료 — 위 숫자가 나온 그 줄</summary><p class='dim'><small>debt_scale · 천안시상수도 · 2023년</small></p><div class='wrap'><table><tr><th>AC_YEAR</th><td class='n'>2023</td></tr><tr><th>ENT_NAME</th><td class='n'>천안시상수도</td></tr><tr><th>FIN_BU_YU</th><td class='n'>1173.0</td></tr><tr><th>FIN_BU_GU</th><td class='n'>1356.0</td></tr><tr><th>FIN_BU_SUM</th><td class='n'>2528.0</td></tr></table></div><p class='dim'><small>debt_scale · 천안시상수도 · 2024년</small></p><div class='wrap'><table><tr><th>AC_YEAR</th><td class='n'>2024</td></tr><tr><th>ENT_NAME</th><td class='n'>천안시상수도</td></tr><tr><th>FIN_BU_YU</th><td class='n'>29872.0</td></tr><tr><th>FIN_BU_GU</th><td class='n'>1211.0</td></tr><tr><th>FIN_BU_SUM</th><td class='n'>31083.0</td></tr></table></div></details></div>
-<div class='card'><h3>15. 시흥시하수도 <small class='dim'>2021 회계연도</small></h3><p>시흥시하수도: 1년 안에 갚아야 할 부채가 2021년에 241억원 늘었다. 전체 부채에서 차지하는 비중은 4.4%에서 39.3%로 올랐고, 총부채는 442억원에서 662억원으로 늘었다.</p><div class='calc'>2020년 유동부채 비중 = 1,965 / 44,210 = 4.4%
+유동부채 증가액 = 29,872 - 1,173 = 28,699 (백만원) = 287억원</div><p class='label'>사람이 확인해야 하는 것</p><ul class='ask'><li>만기가 도래한 것인가, 차환에 실패한 것인가. 공시에 만기 구조가 없어 이 데이터로는 구별할 수 없다.</li><li>이 기관의 사업 성격상 단기 차입을 굴리는 것이 통상적인가.</li><li>해당 연도에 계정 재분류나 회계기준 변경이 있었는가.</li></ul><details><summary>원본 자료 — 위 숫자가 나온 그 줄</summary><p class='label'>debt_scale · 천안시상수도 · 2023년</p><div class='wrap'><table><tbody><tr><th>AC_YEAR</th><td class='n'>2023</td></tr><tr><th>ENT_NAME</th><td class='n'>천안시상수도</td></tr><tr><th>FIN_BU_YU</th><td class='n'>1173.0</td></tr><tr><th>FIN_BU_GU</th><td class='n'>1356.0</td></tr><tr><th>FIN_BU_SUM</th><td class='n'>2528.0</td></tr></tbody></table></div><p class='label'>debt_scale · 천안시상수도 · 2024년</p><div class='wrap'><table><tbody><tr><th>AC_YEAR</th><td class='n'>2024</td></tr><tr><th>ENT_NAME</th><td class='n'>천안시상수도</td></tr><tr><th>FIN_BU_YU</th><td class='n'>29872.0</td></tr><tr><th>FIN_BU_GU</th><td class='n'>1211.0</td></tr><tr><th>FIN_BU_SUM</th><td class='n'>31083.0</td></tr></tbody></table></div></details></article>
+<article class='find'><header><span class='idx'>15</span><h4>시흥시하수도</h4><span class='yr'>2021 회계연도</span></header><p class='lead'>시흥시하수도: 1년 안에 갚아야 할 부채가 2021년에 241억원 늘었다. 전체 부채에서 차지하는 비중은 4.4%에서 39.3%로 올랐고, 총부채는 442억원에서 662억원으로 늘었다.</p><div class='scale'><i style='width:4.5%'></i></div><p class='label'>손으로 다시 계산해 볼 수 있게</p><div class='calc'>2020년 유동부채 비중 = 1,965 / 44,210 = 4.4%
 2021년 유동부채 비중 = 26,018 / 66,170 = 39.3%
 비중 증가 = 39.3% - 4.4% = 34.9%p
-유동부채 증가액 = 26,018 - 1,965 = 24,053 (백만원) = 241억원</div><p><strong>확인이 필요한 것</strong></p><ul class='ask'><li>만기가 도래한 것인가, 차환에 실패한 것인가. 공시에 만기 구조가 없어 이 데이터로는 구별할 수 없다.</li><li>이 기관의 사업 성격상 단기 차입을 굴리는 것이 통상적인가.</li><li>해당 연도에 계정 재분류나 회계기준 변경이 있었는가.</li></ul><details><summary>원본 자료 — 위 숫자가 나온 그 줄</summary><p class='dim'><small>debt_scale · 시흥시하수도 · 2020년</small></p><div class='wrap'><table><tr><th>AC_YEAR</th><td class='n'>2020</td></tr><tr><th>ENT_NAME</th><td class='n'>시흥시하수도</td></tr><tr><th>FIN_BU_YU</th><td class='n'>1965.0</td></tr><tr><th>FIN_BU_GU</th><td class='n'>42245.0</td></tr><tr><th>FIN_BU_SUM</th><td class='n'>44210.0</td></tr></table></div><p class='dim'><small>debt_scale · 시흥시하수도 · 2021년</small></p><div class='wrap'><table><tr><th>AC_YEAR</th><td class='n'>2021</td></tr><tr><th>ENT_NAME</th><td class='n'>시흥시하수도</td></tr><tr><th>FIN_BU_YU</th><td class='n'>26018.0</td></tr><tr><th>FIN_BU_GU</th><td class='n'>40152.0</td></tr><tr><th>FIN_BU_SUM</th><td class='n'>66170.0</td></tr></table></div></details></div>
-<div class='card'><h3>16. 음성군공영개발 <small class='dim'>2021 회계연도</small></h3><p>음성군공영개발: 1년 안에 갚아야 할 부채가 2021년에 149억원 늘었다. 전체 부채에서 차지하는 비중은 5.9%에서 99.2%로 올랐고, 총부채는 2억원에서 151억원으로 늘었다.</p><div class='calc'>2020년 유동부채 비중 = 14 / 239 = 5.9%
+유동부채 증가액 = 26,018 - 1,965 = 24,053 (백만원) = 241억원</div><p class='label'>사람이 확인해야 하는 것</p><ul class='ask'><li>만기가 도래한 것인가, 차환에 실패한 것인가. 공시에 만기 구조가 없어 이 데이터로는 구별할 수 없다.</li><li>이 기관의 사업 성격상 단기 차입을 굴리는 것이 통상적인가.</li><li>해당 연도에 계정 재분류나 회계기준 변경이 있었는가.</li></ul><details><summary>원본 자료 — 위 숫자가 나온 그 줄</summary><p class='label'>debt_scale · 시흥시하수도 · 2020년</p><div class='wrap'><table><tbody><tr><th>AC_YEAR</th><td class='n'>2020</td></tr><tr><th>ENT_NAME</th><td class='n'>시흥시하수도</td></tr><tr><th>FIN_BU_YU</th><td class='n'>1965.0</td></tr><tr><th>FIN_BU_GU</th><td class='n'>42245.0</td></tr><tr><th>FIN_BU_SUM</th><td class='n'>44210.0</td></tr></tbody></table></div><p class='label'>debt_scale · 시흥시하수도 · 2021년</p><div class='wrap'><table><tbody><tr><th>AC_YEAR</th><td class='n'>2021</td></tr><tr><th>ENT_NAME</th><td class='n'>시흥시하수도</td></tr><tr><th>FIN_BU_YU</th><td class='n'>26018.0</td></tr><tr><th>FIN_BU_GU</th><td class='n'>40152.0</td></tr><tr><th>FIN_BU_SUM</th><td class='n'>66170.0</td></tr></tbody></table></div></details></article>
+<article class='find'><header><span class='idx'>16</span><h4>음성군공영개발</h4><span class='yr'>2021 회계연도</span></header><p class='lead'>음성군공영개발: 1년 안에 갚아야 할 부채가 2021년에 149억원 늘었다. 전체 부채에서 차지하는 비중은 5.9%에서 99.2%로 올랐고, 총부채는 2억원에서 151억원으로 늘었다.</p><div class='scale'><i style='width:2.8%'></i></div><p class='label'>손으로 다시 계산해 볼 수 있게</p><div class='calc'>2020년 유동부채 비중 = 14 / 239 = 5.9%
 2021년 유동부채 비중 = 14,952 / 15,072 = 99.2%
 비중 증가 = 99.2% - 5.9% = 93.3%p
-유동부채 증가액 = 14,952 - 14 = 14,938 (백만원) = 149억원</div><p><strong>확인이 필요한 것</strong></p><ul class='ask'><li>만기가 도래한 것인가, 차환에 실패한 것인가. 공시에 만기 구조가 없어 이 데이터로는 구별할 수 없다.</li><li>이 기관의 사업 성격상 단기 차입을 굴리는 것이 통상적인가.</li><li>해당 연도에 계정 재분류나 회계기준 변경이 있었는가.</li></ul><details><summary>원본 자료 — 위 숫자가 나온 그 줄</summary><p class='dim'><small>debt_scale · 음성군공영개발 · 2020년</small></p><div class='wrap'><table><tr><th>AC_YEAR</th><td class='n'>2020</td></tr><tr><th>ENT_NAME</th><td class='n'>음성군공영개발</td></tr><tr><th>FIN_BU_YU</th><td class='n'>14.0</td></tr><tr><th>FIN_BU_GU</th><td class='n'>226.0</td></tr><tr><th>FIN_BU_SUM</th><td class='n'>239.0</td></tr></table></div><p class='dim'><small>debt_scale · 음성군공영개발 · 2021년</small></p><div class='wrap'><table><tr><th>AC_YEAR</th><td class='n'>2021</td></tr><tr><th>ENT_NAME</th><td class='n'>음성군공영개발</td></tr><tr><th>FIN_BU_YU</th><td class='n'>14952.0</td></tr><tr><th>FIN_BU_GU</th><td class='n'>120.0</td></tr><tr><th>FIN_BU_SUM</th><td class='n'>15072.0</td></tr></table></div></details></div>
-<h2>5. 이 조서가 말할 수 없는 것</h2>
-<p><strong>올린 것이 맞는지 채점된 적이 없다</strong><br>감사원 감사결과 중 이 기관들을 표제로 다룬 것은 2020년 이후 7건이고, 그 회계연도가 여기 검토한 연도와 겹치지 않는다. 채점표를 만들 자료가 없다.</p>
-<p><strong>정밀도는 애초에 잴 수 없다</strong><br>올린 건에 감사 기록이 없을 때 &#x27;문제가 없었다&#x27;와 &#x27;아무도 안 들여다봤다&#x27;는 공개 자료로 구별되지 않는다. 그래서 이 조서는 적중률을 숫자로 내지 않는다.</p>
-<p><strong>이 도구는 판정하지 않는다</strong><br>발견사항은 확인이 필요한 항목이지 지적사항이 아니다. 각 건의 &#x27;확인이 필요한 것&#x27;은 이 데이터로 답할 수 없어 사람에게 넘기는 질문이다.</p>
-<p><strong>부채가 만기만 갈아탔는가 — 행정안전부 경영평가 등급과 맞춰 본 결과</strong><br>발견사항 16건 중 등급을 대조할 수 있는 것이 14건이고, 그중 하위등급(라·마)은 0건이다. 등급이 높은데 이 절차가 올린 것을 오답이라 부를 수는 없다 — 경영평가는 그 해 경영 전반을 보고 이 절차는 부채 만기 하나를 본다. 두 질문이 겹치지 않는다.</p>
+유동부채 증가액 = 14,952 - 14 = 14,938 (백만원) = 149억원</div><p class='label'>사람이 확인해야 하는 것</p><ul class='ask'><li>만기가 도래한 것인가, 차환에 실패한 것인가. 공시에 만기 구조가 없어 이 데이터로는 구별할 수 없다.</li><li>이 기관의 사업 성격상 단기 차입을 굴리는 것이 통상적인가.</li><li>해당 연도에 계정 재분류나 회계기준 변경이 있었는가.</li></ul><details><summary>원본 자료 — 위 숫자가 나온 그 줄</summary><p class='label'>debt_scale · 음성군공영개발 · 2020년</p><div class='wrap'><table><tbody><tr><th>AC_YEAR</th><td class='n'>2020</td></tr><tr><th>ENT_NAME</th><td class='n'>음성군공영개발</td></tr><tr><th>FIN_BU_YU</th><td class='n'>14.0</td></tr><tr><th>FIN_BU_GU</th><td class='n'>226.0</td></tr><tr><th>FIN_BU_SUM</th><td class='n'>239.0</td></tr></tbody></table></div><p class='label'>debt_scale · 음성군공영개발 · 2021년</p><div class='wrap'><table><tbody><tr><th>AC_YEAR</th><td class='n'>2021</td></tr><tr><th>ENT_NAME</th><td class='n'>음성군공영개발</td></tr><tr><th>FIN_BU_YU</th><td class='n'>14952.0</td></tr><tr><th>FIN_BU_GU</th><td class='n'>120.0</td></tr><tr><th>FIN_BU_SUM</th><td class='n'>15072.0</td></tr></tbody></table></div></details></article></section>
+<section><h2><i>05</i>이 조서가 말할 수 없는 것</h2><p class='lede'>여기 적지 않으면 조서를 받은 사람은 확인이 끝난 도구로 읽는다.</p><div class='limit'><b>올린 것이 맞는지 채점된 적이 없다</b><p>감사원이 이 기관들을 표제로 감사한 것은 2020년 이후 7건뿐이고, 그 감사가 본 회계연도가 여기서 검토한 연도와 겹치지 않는다. 맞혔는지 대조할 자료가 없다는 뜻이다.</p></div>
+<div class='limit'><b>정밀도는 애초에 잴 수 없다</b><p>올린 건에 감사 기록이 없을 때 &#x27;문제가 없었다&#x27;와 &#x27;아무도 안 들여다봤다&#x27;는 공개 자료로 구별되지 않는다. 그래서 이 조서는 적중률을 숫자로 내지 않는다. 낼 수 없는 숫자를 내는 것이 못 내는 것보다 나쁘다.</p></div>
+<div class='limit'><b>이 도구는 판정하지 않는다</b><p>발견사항은 확인이 필요한 항목이지 지적사항이 아니다. 각 건에 붙은 &#x27;확인이 필요한 것&#x27;은 이 데이터로 답할 수 없어 사람에게 넘기는 질문이다.</p></div>
+<div class='limit'><b>행정안전부 경영평가 등급과 맞춰 본 결과 — 부채가 만기만 갈아탔는가</b><p>발견사항 16건 중 등급을 대조할 수 있는 것이 14건이고, 그중 하위등급(라·마)은 0건이다. 등급이 높은데 이 절차가 올린 것을 오답이라 부를 수는 없다 — 경영평가는 그 해 경영 전반을 보고 이 절차는 부채 만기 하나를 본다. 두 질문이 겹치지 않는다.</p></div></section>
+<footer>
+작성일시를 넣지 않는다. 실행 시각을 찍으면 같은 자료에서 매번 다른 바이트가
+나오고, 이 조서를 저장소에 커밋해 두므로 그러면 무엇이 바뀌었는지 알 수 없게
+된다. 조서가 무엇을 근거로 만들어졌는지는 위 회계연도(2020~2024)가 말해 준다.
+<br><br>
+이 문서는 외부 스크립트·스타일·폰트를 하나도 참조하지 않는다. 첨부해서 보내도,
+인터넷 없이 열어도, 5년 뒤에 열어도 같은 문서다.
+</footer>
 </main></body></html>

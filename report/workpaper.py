@@ -63,6 +63,8 @@ def _procedure(mod, res, grades: Grades) -> dict[str, Any]:
         "rule": res.rule,
         "title": res.title,
         "purpose": getattr(mod, "PURPOSE", ""),
+        "plain": getattr(mod, "PLAIN", ""),
+        "terms": list(getattr(mod, "TERMS", [])),
         "dataset": getattr(mod, "DATASET", ""),
         "doc": getattr(mod, "DOC", ""),
         "thresholds": list(getattr(mod, "THRESHOLDS", [])),
