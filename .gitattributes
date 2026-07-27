@@ -3,3 +3,7 @@
 # 수집기가 LF 로 쓰므로 저장소와 작업 사본을 둘 다 LF 로 고정한다.
 data/raw/*.xml        text eol=lf
 data/snapshot/*.csv   text eol=lf
+
+# 대조 자료는 화면에서 옮긴 것이라 손으로 만든 파일에 가깝지만, 같은 이유로
+# 줄바꿈을 고정해 둔다. 탭으로 나뉜 표라 줄이 밀리면 열이 어긋난다.
+data/benchmark/*.tsv  text eol=lf
