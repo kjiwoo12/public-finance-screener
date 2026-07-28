@@ -1,5 +1,9 @@
 # 공공부문 재정 스크리너
 
+[![tests](https://github.com/kjiwoo12/public-finance-screener/actions/workflows/tests.yml/badge.svg)](https://github.com/kjiwoo12/public-finance-screener/actions/workflows/tests.yml)
+[![python](https://img.shields.io/badge/python-3.10%2B-blue)](https://www.python.org/downloads/)
+[![dependencies](https://img.shields.io/badge/dependencies-none-brightgreen)](.github/workflows/tests.yml)
+
 지방공기업 427곳의 공개 결산자료를 훑어서 **"이 기관, 이 항목은 물어봐야 한다"** 를 뽑아내는 도구입니다.
 
 판정하지 않습니다. 질문을 만듭니다. 이 구별이 이 저장소의 전부입니다.
